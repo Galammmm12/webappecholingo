@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 คำถาม Pre-Test / Post-Test | EchoLingo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson_tests.css') }}">
+
+</head>
+
+<body>
+  <div class="container">
+    <h2>📝 คำถาม Pre-Test / Post-Test ของ {{ lesson.title }}</h2>
+
+    <div class="top-actions">
+      <a href="{{ url_for('admin.add_question', lesson_id=lesson.id) }}" class="btn btn-blue">➕ เพิ่มคำถาม</a>
+      <a href="{{ url_for('admin.dashboard') }}" class="btn btn-gray">⬅ กลับ Dashboard</a>
+    </div>
+
+    {% if test_questions %}
+      <table>
+        <thead>
+          <tr>
+            <th style="width:130px;">ประเภท</th>
+            <th>คำถาม</th>
+            <th style="width:80px;">A</th>
+            <th style="width:80px;">B</th>
+            <th style="width:80px;">C</th>
+            <th style="width:80px;">D</th>
+            <th style="width:100px;">คำตอบที่ถูก</th>
+            <th style="width:130px;">จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for test in test_questions %}
+          <tr>
+            <td>
+              {% if test.question_type == "pre" %} Pre-Test (EN)
+              {% elif test.question_type == "post" %} Post-Test (EN)
+              {% elif test.question_type == "pre_zh" %} Pre-Test (ZH)
+              {% elif test.question_type == "post_zh" %} Post-Test (ZH)
+              {% else %} {{ test.question_type }} {% endif %}
+            </td>
+            <td>{{ test.question }}</td>
+            <td>{{ test.option_a }}</td>
+            <td>{{ test.option_b }}</td>
+            <td>{{ test.option_c }}</td>
+            <td>{{ test.option_d }}</td>
+            <td><b style="color:#0288D1;">{{ test.correct_option }}</b></td>
+            <td class="actions">
+              <form method="GET" action="{{ url_for('admin.edit_question', lesson_id=lesson.id, q_id=test.id) }}" style="display:inline;">
+
+                <button type="submit" class="edit-btn">✏️</button>
+              </form>
+              <form method="POST" action="{{ url_for('admin.delete_question', lesson_id=lesson.id, q_id=test.id) }}" style="display:inline;">
+
+                <button type="submit" class="delete-btn">🗑</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="no-data">ยังไม่มีคำถามสำหรับบทเรียนนี้</p>
+    {% endif %}
+  </div>
+
+  <footer>© 2025 EchoLingo Admin System</footer>
+</body>
+</html>

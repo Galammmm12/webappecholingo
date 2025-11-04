@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EchoLingo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- ซ้าย: ฟอร์ม -->
+        <div class="form-section">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+            </div>
+            <h2>Sign Up</h2>
+
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                {{ form.hidden_tag() if form else '' }}
+                
+                <input type="text" name="name" placeholder="ชื่อ-นามสกุล" value="{{ name or '' }}" required>
+
+                <div class="row">
+                    <!-- Username -->
+                    <div class="field">
+                        <input type="text" name="username" placeholder="Username"
+                               value="{{ username or '' }}" required
+                               class="{% if error_username %}input-error{% endif %}">
+                        {% if error_username %}
+                          <div class="error"> {{ error_username }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="field">
+                        <input type="password" name="password" placeholder="Password" required
+                               class="{% if error_password %}input-error{% endif %}">
+                        {% if error_password %}
+                          <div class="error">{{ error_password }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <select name="role" id="role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="student" {% if role=='student' %}selected{% endif %}>Student</option>
+                    <option value="teacher" {% if role=='teacher' %}selected{% endif %}>Teacher</option>
+                    
+                </select>
+
+                <!-- School -->
+                <div id="schoolBox" style="display:none;">
+                    <input type="text" name="school" placeholder="School name (โรงเรียน)" value="{{ school or '' }}">
+                </div>
+
+                <!-- Student -->
+                <div id="studentBox" style="display:none;">
+                    <div class="row">
+                        <input type="text" name="student_number" placeholder="เลขที่" value="{{ student_number or '' }}">
+                        <select name="classroom">
+                            <option value="">-- เลือกห้อง --</option>
+                            {% for i in range(1, 11) %}
+                                <option value="ป.6/{{ i }}" {% if classroom == 'ป.6/' ~ i %}selected{% endif %}>ป.6/{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Teacher -->
+                <div id="teacherCodeBox" style="display:none;">
+                    <input type="text" name="teacher_code" placeholder="Teacher secret code" value="{{ teacher_code or '' }}">
+                </div>
+
+                <!-- Admin -->
+                <div id="adminCodeBox" style="display:none;">
+                    <input type="text" name="admin_code" placeholder="Admin secret code" value="{{ admin_code or '' }}">
+                </div>
+
+                <button type="submit" id="registerBtn">Register</button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="{{ url_for('auth.login') }}">Sign In</a>
+            </div>
+        </div>
+
+        <!-- ขวา: รูป -->
+        <div class="image-section"></div>
+    </div>
+
+    <script>
+        // แสดงช่องเฉพาะ role
+        const roleSel = document.getElementById('role');
+        const tBox = document.getElementById('teacherCodeBox');
+        const aBox = document.getElementById('adminCodeBox');
+        const sBox = document.getElementById('schoolBox');
+        const stBox = document.getElementById('studentBox');
+
+        function toggleBoxes() {
+            const r = roleSel.value;
+            tBox.style.display = (r === 'teacher') ? 'block' : 'none';
+            aBox.style.display = (r === 'admin') ? 'block' : 'none';
+            sBox.style.display = (r === 'teacher' || r === 'student') ? 'block' : 'none';
+            stBox.style.display = (r === 'student') ? 'block' : 'none';
+        }
+        roleSel.addEventListener('change', toggleBoxes);
+        toggleBoxes();
+
+        // ป้องกันกรอกผิดฝั่ง client
+        document.querySelector('form').addEventListener('submit', (e) => {
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value;
+            const btn = document.getElementById('registerBtn');
+            if (username.length < 4) {
+                alert("⚠️ Username ต้องมีอย่างน้อย 4 ตัวอักษร");
+                e.preventDefault();
+                return;
+            }
+            if (password.length < 6) {
+                alert("⚠️ Password ต้องมีอย่างน้อย 6 ตัวอักษร");
+                e.preventDefault();
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = "Registering...";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ game.title }} - ผลลัพธ์</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/choice_result.css') }}">
+
+</head>
+<body>
+  <h1>{{ game.title }} - ผลลัพธ์</h1>
+
+  <div class="score-box">
+    ✅ คุณได้ <b>{{ score }}/{{ total }}</b> คะแนน
+  </div>
+
+  <table>
+    <tr>
+      <th>คำถาม</th>
+      <th>คำตอบของคุณ</th>
+      <th>คำตอบที่ถูกต้อง</th>
+      <th>สถานะ</th>
+    </tr>
+    {% for r in results %}
+    <tr class="{{ 'correct-row' if r.is_correct else 'wrong-row' }}">
+      <td>{{ r.question }}</td>
+      <td>{{ r.user_answer }}</td>
+      <td>{{ r.correct_answer }}</td>
+      <td class="status">{{ '✅' if r.is_correct else '❌' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+ <a href="{{ url_for('student.unit_detail', unit_id=game.lesson_id, lang=game.lang) }}" class="back">⬅ กลับหน้าบทเรียน</a>
+</body>
+</html>

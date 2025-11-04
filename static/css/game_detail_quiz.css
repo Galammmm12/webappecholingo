@@ -1,0 +1,111 @@
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: #f0faff;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: #001D7D;
+      margin-bottom: 30px;
+    }
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #007acc;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+  min-width: 90px;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.button.warn {
+  background: #fbbf24; /* เหลืองทองอ่อน */
+  color: #222;
+  box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
+}
+.button.warn:hover {
+  background: #f59e0b;
+  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4);
+}
+
+.button.danger {
+  background: #ef4444;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+.button.danger:hover {
+  background: #dc2626;
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
+}
+
+.actions .button {
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 20px;
+  min-width: 70px;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e0f7ff;
+      color: #003366;
+    }
+
+    td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    img {
+      border-radius: 8px;
+      height: 56px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .no-items {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 30px;
+    }

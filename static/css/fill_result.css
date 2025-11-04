@@ -1,0 +1,114 @@
+ body {
+  font-family: 'Kanit', sans-serif;
+  margin: 0;
+  padding: 30px;
+  /* ใช้ url แบบ Flask static */
+      background: url("../images/6.png") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+
+    h1 {
+      text-align: center;
+      color: #a1a1a1;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .score-box {
+      max-width: 500px;
+      margin: 0 auto 25px auto;
+      background: #fff3cc;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    .word-bank {
+      max-width: 800px;
+      margin: 0 auto 25px auto;
+      padding: 15px;
+      background: #e7f8ffcc;
+      border-radius: 18px;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .chip {
+      display: inline-block;
+      background: #ffecb3;
+      color: #333;
+      padding: 6px 12px;
+      margin: 4px;
+      border-radius: 25px;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 25px auto;
+      border-collapse: collapse;
+      background: #ffffffcc;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: linear-gradient(135deg, #469ef0);
+      color: #fff;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    tr.correct-row {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    tr.wrong-row {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    td.status {
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    a.back {
+      display: block;
+      max-width: 250px;
+      margin: 0 auto;
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(135deg, #469ef0);
+      color: #fff;
+      padding: 12px;
+      border-radius: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(255,111,97,0.3);
+      transition: all 0.25s ease;
+      margin-bottom: 40px;
+    }
+
+    a.back:hover {
+      background: linear-gradient(135deg, #e55b50, #ff9f3c);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(255,111,97,0.4);
+    }

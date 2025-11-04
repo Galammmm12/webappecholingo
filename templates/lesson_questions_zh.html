@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><title>题目列表</title></head>
+<body>
+  <h2>📖 {{ lesson.title }} ({{ lesson.title_pinyin }}) 的题目</h2>
+  <ul>
+    {% for q in questions %}
+      <li>{{ q.question }} ({{ q.question_pinyin }}) ✅ 正确: {{ q.correct_option }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

@@ -1,0 +1,81 @@
+
+      body {
+    margin: 0;
+    font-family: 'Prompt', sans-serif;
+    background: url("../images/6.png") no-repeat center center fixed;
+    background-size: cover;   /* ปรับให้รูปเต็มหน้าจอ */
+}
+    header{
+            background: linear-gradient(90deg, #9EE6FD);
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 25px;box-shadow:0 3px 8px rgba(0,0,0,.1);
+    }
+    .logo-container{display:flex;align-items:center;}
+    .logo-container img{height:50px;margin-right:10px;}
+    .logo-text{font-size:1.7rem;font-weight:bold;letter-spacing:1px;}
+    .logo-text .echo{color:#001D7D;}
+    .logo-text .lingo{color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,.2);}
+    nav a{margin:0 12px;text-decoration:none;color:#001D7D;font-weight:600;}
+    nav a:hover{color:#ffffff;}
+    .btn-logout{
+      background:#ff4d4d;color:#fff;border:none;padding:8px 15px;
+      border-radius:20px;font-weight:bold;text-decoration:none;
+    }
+    .btn-logout:hover{background:#d32f2f;}
+    .lang-toggle{position:relative;display:inline-block;margin-right:15px;}
+    .lang-toggle input{display:none;}
+    .toggle{
+      display:flex;align-items:center;justify-content:space-between;
+      width:120px;height:40px;background:#ffd966;border-radius:25px;
+      cursor:pointer;position:relative;padding:0 10px;font-weight:bold;
+      font-size:.9rem;color:#333;
+    }
+    .toggle .option{z-index:2;flex:1;text-align:center;}
+    .slider{
+      position:absolute;top:3px;left:3px;width:55px;height:34px;background:#fff;
+      border-radius:20px;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:all .3s ease;z-index:1;
+    }
+    /* checked = 中文ด้านขวา */
+    .lang-toggle input:checked + .toggle .slider{transform:translateX(60px);}
+
+    .container{
+      max-width:900px;margin:30px auto;padding:22px;background:#fff;border-radius:12px;
+      box-shadow:0 2px 10px rgba(0,0,0,.08);
+    }
+    h2{text-align:center;color:#001D7D;margin:0 0 10px;}
+    h2 small{font-size:.9rem;color:#666;}
+    .section{
+      background:#f7fbff;margin:16px 0;padding:16px 18px;border-radius:10px;
+      border:1px solid #e4f2ff;
+    }
+    .section-title{font-size:1.2rem;color:#001D7D;font-weight:700;margin-bottom:8px;}
+    .status{font-size:1.05rem;font-weight:700;margin-right:10px;}
+    .status.done{color:#2e7d32;}
+    .status.pending{color:#e53935;}
+    .test-buttons{
+      display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;
+    }
+    .test-box{
+      flex:1 1 260px;background:#f9fcff;padding:15px;border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:center;border:1px solid #eaf4ff;
+    }
+    .test-box h4{margin:0 0 8px;color:#001D7D;}
+    .start-btn{
+      display:inline-block;background:#007acc;color:#fff;padding:8px 16px;border-radius:18px;
+      text-decoration:none;font-weight:700;transition:background .2s ease;margin-top:6px;
+    }
+    .start-btn:hover{background:#005fa3;}
+    .start-btn.disabled{background:#bdbdbd;cursor:not-allowed;}
+
+    .game-section{margin-top:26px;}
+    .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+    .game-card{
+      background:#f1f8ff;border:1px solid #cce7ff;border-radius:10px;padding:12px 14px;
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .game-title{color:#003366;font-weight:600;}
+    .play-btn{
+      background:#28a745;color:#fff;padding:7px 14px;border-radius:16px;text-decoration:none;font-weight:600;
+    }
+    .play-btn:hover{background:#1f8a39;}
+    footer{text-align:center;padding:10px 12px;background:#f5f5f5;color:#777;font-size:.9rem;}

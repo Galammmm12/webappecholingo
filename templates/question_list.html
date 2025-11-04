@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>รายการคำถาม</title>
+</head>
+<body>
+    <h1>รายการคำถาม</h1>
+    <a href="/add">➕ เพิ่มคำถาม</a>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>บทเรียน</th>
+                <th>ประเภท</th>
+                <th>คำถาม</th>
+                <th>เฉลย</th>
+                <th>การจัดการ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for q in questions %}
+            <tr>
+                <td>{{ q.id }}</td>
+                <td>{{ q.lesson_id }}</td>
+                <td>{{ q.question_type }}</td>
+                <td>{{ q.question }}</td>
+                <td>{{ q.correct_option }}</td>
+                <td>
+                    <a href="/edit/{{ q.id }}">✏️</a>
+                    <a href="/delete/{{ q.id }}" onclick="return confirm('ลบคำถามนี้?')">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/quiz">🎯 ทำแบบทดสอบ</a>
+</body>
+</html>

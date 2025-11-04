@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Play Game - EchoLingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_items.css') }}">
+</head>
+<body>
+
+  <h1>🎮 {{ game.title }}</h1>
+  <p>{{ game.description }}</p>
+
+  <div class="game-container">
+    {% for item in game.items %}
+    <div class="game-card">
+      <img src="{{ url_for('static', filename='images/' + item.image_name) }}"
+           onerror="this.src='{{ url_for('static', filename='images/default.png') }}'"
+           width="150" height="150" style="border-radius: 10px;"><br>
+
+      <div class="drop-zone"
+           id="drop-{{ item.id }}"
+           ondrop="drop(event, '{{ item.id }}')"
+           ondragover="allowDrop(event)">
+        วางคำที่ถูกต้องที่นี่
+        <input type="hidden" name="answers[{{ item.id }}]" id="input-{{ item.id }}" />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev, itemId) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const dragged = document.getElementById(data);
+      if (!dragged) return;
+
+      const word = dragged.innerText.trim();
+
+      const dropZone = document.getElementById("drop-" + itemId);
+      dropZone.innerHTML = `
+        <span style="font-weight:bold">${word}</span>
+        <input type="hidden" name="answers[${itemId}]" id="input-${itemId}" value="${word}">
+      `;
+
+      dragged.style.visibility = 'hidden';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เพิ่มบทเรียน</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_lesson.css') }}">
+</head>
+
+<body>
+  <header>➕ เพิ่มบทเรียนใหม่</header>
+
+  <div class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- ✅ ใช้ endpoint ภายใต้ Blueprint: admin -->
+    <form method="POST" action="{{ url_for('admin.add_lesson') }}">
+      <label>ภาษา:</label>
+      <select name="language" required>
+        <option value="en">อังกฤษ</option>
+        <option value="zh">จีน</option>
+      </select><br>
+
+      <label>ชื่อบทเรียน:</label>
+      <input type="text" name="title" required><br>
+
+      <label>พินอิน (ถ้าเป็นจีน):</label>
+      <input type="text" name="title_pinyin"><br>
+
+      <input type="submit" value="💾 บันทึก">
+
+      <!-- ✅ กลับหน้าหลักของ admin -->
+      <a href="{{ url_for('admin.dashboard') }}" class="button">🔙 กลับหน้าแดชบอร์ด</a>
+    </form>
+  </div>
+</body>
+</html>

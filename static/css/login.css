@@ -1,0 +1,97 @@
+ body {
+      font-family: 'Prompt', sans-serif;
+      background: #f5faff;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      display: flex;
+      width: 800px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    .form-section {
+      flex: 1;
+      padding: 40px;
+    }
+    .form-section h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #333;
+    }
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-section input[type="text"],
+    .form-section input[type="password"] {
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .error {
+      color: #e53935;
+      font-size: 0.85rem;
+      margin-top: -6px;
+      margin-bottom: 8px;
+    }
+    .form-section .remember-me {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .form-section .remember-me input {
+      margin-right: 8px;
+    }
+    .form-section button {
+      background-color: #00bcd4;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .form-section button:hover {
+      background-color: #0097a7;
+    }
+    .form-section .signup-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .form-section .signup-link a {
+      color: #00bcd4;
+      text-decoration: none;
+    }
+    .form-section .signup-link a:hover {
+      text-decoration: underline;
+    }
+    .image-section {
+      flex: 1.5;
+      background: url('../images/l1.png') no-repeat center;      background-size: contain;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 120px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        width: 90%;
+      }
+      .image-section {
+        height: 200px;
+      }
+    }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เพิ่มประเภทเกม - EchoLingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_game_type.css') }}">
+
+ 
+</head>
+<body>
+  <div class="card">
+    <h1>➕ เพิ่มประเภทเกม</h1>
+    <form method="POST">
+      <label for="name">ชื่อประเภทเกม</label>
+      <input type="text" name="name" id="name" required>
+
+      <label for="description">คำอธิบาย</label>
+      <textarea name="description" id="description" rows="4"></textarea>
+
+      <button type="submit">บันทึก</button>
+    </form>
+    <a href="{{ url_for('list_game_types') }}" class="btn-back">⬅ กลับ</a>
+  </div>
+</body>
+</html>

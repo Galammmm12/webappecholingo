@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_quiz.css') }}">
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: #f0faff;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: #001D7D;
+      margin-bottom: 30px;
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #007acc;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .button.warn {
+      background: #fbbf24;
+      color: #222;
+      box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
+    }
+
+    .button.warn:hover {
+      background: #f59e0b;
+      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4);
+    }
+
+    .button.danger {
+      background: #ef4444;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+    }
+
+    .button.danger:hover {
+      background: #dc2626;
+      box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e0f7ff;
+      color: #003366;
+    }
+
+    td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .no-items {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 30px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #007acc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>📝 Quiz – {{ game.title }}</h1>
+
+    <!-- ปุ่มเพิ่มคำถามและแก้ไขเกม -->
+    <div class="top-buttons">
+      <a href="{{ url_for('admin.add_quiz_item', game_id=game.id) }}" class="button">➕ เพิ่มคำถามใหม่</a>
+      <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="button warn" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+      <a href="{{ url_for('admin.dashboard') }}" class="button secondary">⬅ กลับหน้าหลัก</a>
+    </div>
+
+    {% if items|length == 0 %}
+      <p class="no-items"><em>ยังไม่มีคำถามในเกมนี้</em></p>
+    {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>คำถาม</th>
+            <th>ช้อยส์</th>
+            <th>เฉลย</th>
+            <th>การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in items %}
+          <tr>
+            <td>{{ it.id }}</td>
+            <td style="text-align:left">{{ it.question }}</td>
+            <td>
+              A. {{ it.option_a }}<br>
+              B. {{ it.option_b }}<br>
+              C. {{ it.option_c }}<br>
+              D. {{ it.option_d }}
+            </td>
+            <td>
+  <strong>
+    {{ it.correct or it.correct_option or it.answer or '-' }}
+  </strong>
+</td>
+
+            <td class="actions">
+              <a href="{{ url_for('admin.edit_quiz_item', game_id=game.id, item_id=it.id) }}" class="button warn">✏️ แก้ไข</a>
+
+              <form method="POST" action="{{ url_for('admin.delete_quiz_item', game_id=game.id, item_id=it.id) }}" onsubmit="return confirm('ต้องการลบคำถามนี้จริงหรือไม่?')">
+                <button type="submit" class="button danger">🗑️</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</body>
+</html>

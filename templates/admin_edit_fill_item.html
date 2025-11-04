@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แก้ไขข้อเติมคำ - {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_fill_item.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>✏️ แก้ไขข้อเติมคำ ({{ game.title }})</h1>
+    <form method="POST">
+      <label>ประโยค (ใส่ "_____" แทนช่องว่าง)</label>
+      <textarea name="sentence" required>{{ item.sentence }}</textarea>
+      <p class="hint">💡 ตัวอย่าง:  
+        - Anna: I enjoy _____ and _____. It’s very _____  
+        - Sarah: My favorite drink is _____
+      </p>
+
+      <label>คำตอบที่ถูกต้อง (คั่นด้วย ; ตามจำนวนช่องว่าง)</label>
+      <input type="text" name="correct_word" value="{{ item.correct_word }}" required>
+
+
+      <p class="hint">💡 ต้องใส่คำตอบครบตามจำนวน "_____" ในประโยค เช่น  
+        - ประโยค: I like _____ and _____.  
+        - คำตอบ: pasta;milkshake
+      </p>
+
+      <button type="submit">💾 บันทึกการแก้ไข</button>
+    </form>
+<a href="{{ url_for('admin.dashboard') }}">⬅️ กลับแดชบอร์ด</a>
+</body>
+</html>

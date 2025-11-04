@@ -1,0 +1,163 @@
+*{ box-sizing: border-box; }
+    body{
+      font-family: "Prompt", sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: url("../images/6.png") no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 100px;
+    }
+
+    .game-container{ 
+      max-width: 1100px; 
+      margin:auto; 
+      padding: 20px; 
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    }
+    h2{ 
+      color: #0288D1; 
+      text-align: center; 
+      margin: 0 0 22px; 
+      font-size: 1.8rem;
+    }
+
+    .choice-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .item-card{
+      background: #fff;
+      border: 2px solid #BBDEFB;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+      transition: transform .2s ease;
+    }
+    .item-card:hover{ transform: translateY(-4px); }
+
+    .item-card img{
+      width: 100%;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .prompt{
+      margin: 8px 4px 10px;
+      color: #374151;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* ✅ ตัวเลือก */
+    .options{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    label.chip{
+      --ring: rgba(37,99,235,.15);
+      position: relative;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 12px 16px 12px 48px;
+      border:2px solid #4FC3F7;
+      border-radius: 999px;
+      background: #ffffff;
+      font-weight: 600;
+      cursor:pointer;
+      user-select:none;
+      transition: all .25s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      min-width: 220px;
+      justify-content: flex-start;
+      color:#374151;
+    }
+    label.chip:hover{ 
+      background:#E1F5FE;
+      border-color:#0288D1;
+      transform: translateY(-3px) scale(1.02); 
+      box-shadow: 0 6px 18px rgba(2,136,209,.25); 
+    }
+
+    /* วงกลม A/B/C/D */
+    .chip .badge{
+      position:absolute; 
+      left:12px; 
+      top:50%; 
+      transform:translateY(-50%);
+      width:30px; height:30px; 
+      border-radius:50%;
+      display:grid; 
+      place-items:center;
+      font-size:14px; 
+      font-weight:800;
+      background:#0288D1;
+      color:#fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    }
+
+    .chip input{ display:none; }
+
+    /* ✨ เอฟเฟกต์วิ้งๆ */
+    .chip .sparkles{ pointer-events:none; position:absolute; inset:0; display:none; }
+    .chip .sparkles::before,
+    .chip .sparkles::after{
+      content:"✨";
+      position:absolute;
+      font-size:16px;
+      opacity:0;
+      animation: sparkle .6s ease forwards;
+    }
+    .chip .sparkles::before{ top:-6px; right:-6px; }
+    .chip .sparkles::after { bottom:-6px; left:-6px; animation-delay:.1s; }
+
+    @keyframes sparkle{
+      0%{ transform: scale(.6) rotate(-10deg); opacity:0; }
+      60%{ opacity:1; }
+      100%{ transform: scale(1.2) rotate(10deg); opacity:0; }
+    }
+
+    /* เมื่อเลือก */
+    .chip input:checked ~ .txt{ color:#fff; }
+    .chip input:checked ~ .sparkles{ display:block; }
+    .chip input:checked ~ .badge{ background:#fff; color:#0288D1; }
+    label.chip:has(input:checked){
+      background: linear-gradient(135deg, #42A5F5, #81D4FA);
+      border-color: transparent;
+      color:#fff;
+      box-shadow: 0 8px 20px rgba(2,136,209,.35);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    /* ปุ่มส่ง */
+    .submit-wrap{ text-align:center; margin-top:28px; }
+    .submit-btn{
+      padding: 14px 26px;
+      background: linear-gradient(90deg,#FF80AB,#F48FB1);
+      color:#fff; border:none; border-radius: 14px;
+      font-size: 17px; font-weight: 700;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(244,143,177,.3);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .submit-btn:hover{ 
+      transform: translateY(-2px); 
+      box-shadow: 0 12px 28px rgba(244,143,177,.45); 
+    }
+
+    @media (max-width: 780px){
+      .choice-grid{ grid-template-columns: 1fr; }
+      .item-card{ padding:14px; }
+    }

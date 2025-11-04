@@ -1,0 +1,121 @@
+:root {
+  --c1: #eef6ff;
+  --c2: #d7ebff;
+  --c3: #2b6cb0;
+  --c4: #1e4e8c;
+  --chip: #f3f9ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Prompt", sans-serif;
+  background: url("../images/6.png") no-repeat center center fixed;
+  background-size: cover;
+  /* เอา padding-top ออก */
+  margin: 0;
+}
+
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #9EE6FD);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 25px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.logo-container { display: flex; align-items: center; }
+.logo-container img { height: 50px; margin-right: 10px; }
+.logo-text { font-size: 1.7rem; font-weight: bold; letter-spacing: 1px; }
+.logo-text .echo { color: #001D7D; }
+.logo-text .lingo { color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+nav a {
+  margin: 0 12px;
+  text-decoration: none;
+  color: #001D7D;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+nav a:hover { color: #ffffff; }
+
+.btn-logout {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+.btn-logout:hover { background: #d32f2f; }
+
+.container {
+  max-width: 980px;
+  margin: 120px auto 0; /* ปรับให้กล่องอยู่สูงขึ้นพอดีใต้ header */
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(14,60,120,.10);
+}
+
+h1 {
+  margin: 4px 0 16px;
+  color: var(--c4);
+}
+
+.card {
+  border: 1px solid var(--c2);
+  border-radius: 14px;
+  padding: 16px 16px 10px;
+  margin: 14px 0;
+  background: #fff;
+}
+
+.bank, .answer {
+  min-height: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px dashed #b7d6ff;
+  background: var(--c1);
+}
+
+.answer {
+  background: #fff;
+}
+
+.chip {
+  background: var(--chip);
+  border: 1px solid #cfe6ff;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: .15s;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(25,91,165,.15);
+}
+
+button {
+  background: var(--c3);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+}

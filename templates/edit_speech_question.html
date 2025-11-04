@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>แก้ไขคำถามพูด</title>
+  <style>
+    body { font-family:"Prompt",sans-serif; background:#f9fcff; margin:0; padding:30px; }
+    .wrap { max-width:700px; margin:auto; background:#fff; padding:20px; border-radius:14px; box-shadow:0 8px 16px rgba(0,0,0,0.1); }
+    label { display:block; margin:12px 0 6px; font-weight:600; }
+    input, textarea, select { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; }
+    button { background:#f59e0b; color:#fff; border:none; padding:10px 18px; border-radius:999px; cursor:pointer; font-weight:600; margin-top:16px; }
+    a { display:inline-block; margin-top:20px; color:#2563eb; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>แก้ไขคำถามพูด</h2>
+    <form method="POST">
+      <label>คำถาม (Question Text)</label>
+      <input type="text" name="question_text" value="{{ question.question_text }}" required>
+      <label>พินอิน (Pinyin) <small>(ใส่เฉพาะถ้าเป็นภาษาจีน)</small></label>
+      <input type="text" name="pinyin" placeholder="เช่น nǐ hǎo">
+      <label>คำตอบที่ถูกต้อง (Correct Answer)</label>
+      <textarea name="correct_answer" rows="3" required>{{ question.correct_answer }}</textarea>
+
+      <label>ภาษา (Language)</label>
+      <select name="lang">
+        <option value="en" {% if question.lang == "en" %}selected{% endif %}>English</option>
+        <option value="zh" {% if question.lang == "zh" %}selected{% endif %}>Chinese</option>
+        <option value="th" {% if question.lang == "th" %}selected{% endif %}>Thai</option>
+      </select>
+
+      <button type="submit">💾 บันทึก</button>
+    </form>
+
+    <a href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">⬅ กลับ</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 {{ "Pre-test" if test_type=="pre" else "Post-test" }} ({{ "อังกฤษ" if lang=="en" else "จีน" }})</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+</head>
+<body>
+  <h1>📝 {{ "Pre-test" if test_type=="pre" else "Post-test" }}</h1>
+
+  <form method="POST"
+        action="{% if current_user.role|lower in ['admin','teacher'] %}
+                   {{ url_for('admin_quiz.take_quiz', lesson_id=lesson.id, lang=lang, test_type=test_type) }}
+                 {% else %}
+                   {{ url_for('quiz.student_take_quiz', lesson_id=lesson.id, lang=lang, test_type=test_type) }}
+                 {% endif %}">
+    
+    {% for q in questions %}
+    <div class="q-box">
+      <div class="q-text">Q{{ loop.index }}. {{ q.question }}</div>
+      {% if q.image_path %}
+        <img src="{{ url_for('static', filename=q.image_path) }}" class="thumb">
+      {% endif %}
+      <label><input type="radio" name="q{{ q.id }}" value="A"> A. {{ q.option_a }}</label><br>
+      <label><input type="radio" name="q{{ q.id }}" value="B"> B. {{ q.option_b }}</label><br>
+      <label><input type="radio" name="q{{ q.id }}" value="C"> C. {{ q.option_c }}</label><br>
+      <label><input type="radio" name="q{{ q.id }}" value="D"> D. {{ q.option_d }}</label>
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="submit-btn">✅ ส่งคำตอบ</button>
+  </form>
+</body>
+</html>

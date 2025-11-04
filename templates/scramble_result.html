@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ผลลัพธ์ เกมเรียงคำ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/scramble_result.css') }}">
+</head>
+<body>
+  <h1>เกมเรียงคำ</h1>
+  <div class="score-box">✅ คะแนนของคุณ: <b>{{ score }}/{{ total }}</b></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ข้อ</th>
+        <th>คำตอบของคุณ</th>
+        <th>คำตอบที่ถูก</th>
+        <th>สถานะ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ans in results %}
+      <tr class="{% if ans.is_correct %}correct-row{% else %}wrong-row{% endif %}">
+        <td>{{ loop.index }}</td>
+        <td>{{ ans.user_answer }}</td>
+        <td>{{ ans.correct_answer }}</td>
+        <td class="status">{% if ans.is_correct %}✅{% else %}❌{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+ <a href="{{ url_for('student.unit_detail', unit_id=game.lesson_id, lang=game.lang) }}" class="back">
+⬅ กลับหน้าบทเรียน</a>
+ </html>

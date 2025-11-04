@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ผลคะแนนและเฉลย</title>
+</head>
+<body>
+  <h1>คุณได้คะแนน {{ score }}</h1>
+  <h2>เฉลย</h2>
+  {% for item in game_items %}
+    <div>
+      <img src="/static/images/{{ item.image_name }}" width="120">
+      <p>คำที่ถูกต้อง: {{ item.correct_word }}</p>
+    </div>
+  {% endfor %}
+<a href="{{ url_for('student.dashboard_en' if game.lang == 'en' else 'student.dashboard_zh') }}">
+  🔙 กลับหน้าหลัก
+</a>
+</body>
+</html>
+add_fill_item.html

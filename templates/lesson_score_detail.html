@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ lesson.title }} - Game Scores</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson_score_detail.css') }}">
+</head>
+<body>
+  <header>
+  <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+      <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+  </div>
+  <div class="nav-center">
+      
+          <nav>
+  <a href="{{ url_for('student.dashboard_en') }}">Home</a>       
+  <a href="{{ url_for('student.exercise_score_en') }}">Exercise Score</a>
+  <a href="{{ url_for('student.test_scores_en') }}">Test Score</a>
+</nav>
+
+  </div>
+ 
+    <!-- ✅ ปุ่มภาษากับ Logout ไว้ขวาสุด -->
+    <div class="right-controls">
+        
+<a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+    </div>
+
+</header>
+
+<div class="score-title">⭐ {{ lesson.title }} - Game Scores ⭐</div>
+
+<div class="unit-container">
+  {% for g in games %}
+    <div class="unit-card">
+      <h3>{{ g.title }}</h3>
+      <div class="circular-progress">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"></circle>
+          <circle class="progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+        <div class="score-text"></div>
+      </div>
+      <div class="status-text"></div>
+    </div>
+  {% endfor %}
+</div>
+
+
+<script>
+const scores = {{ scores|tojson }};
+
+document.querySelectorAll(".unit-card").forEach((card, idx) => {
+  const data = scores[idx] || {score:0, max:10};
+  const score = data.score;
+  const max = data.max || 10;
+  const percent = (score / max) * 100;
+
+  const progress = card.querySelector(".progress");
+  const text = card.querySelector(".score-text");
+  const status = card.querySelector(".status-text");
+
+  const r = 40;
+  const circumference = 2 * Math.PI * r;
+  progress.style.strokeDasharray = circumference;
+  progress.style.strokeDashoffset = circumference;
+
+  setTimeout(() => {
+    progress.style.strokeDashoffset = circumference * (1 - percent/100);
+  }, 100);
+
+  text.innerText = score + "/" + max;
+
+  setTimeout(()=> {
+    if(score === max){
+      progress.style.stroke = "#2ecc71";
+      status.innerText = "Perfect!";
+      status.style.color = "#2ecc71";
+    } else if(score >= max * 0.8){
+      progress.style.stroke = "#27ae60";
+      status.innerText = "Excellent!";
+      status.style.color = "#27ae60";
+    } else if(score >= max * 0.6){
+      progress.style.stroke = "#f1c40f";
+      status.innerText = "Good Job!";
+      status.style.color = "#f1c40f";
+    } else if(score >= max * 0.4){
+      progress.style.stroke = "#e67e22";
+      status.innerText = "Keep Trying!";
+      status.style.color = "#e67e22";
+    } else {
+      progress.style.stroke = "#e74c3c";
+      status.innerText = "Need Practice!";
+      status.style.color = "#e74c3c";
+    }
+  },800);
+});
+</script>
+
+</body>
+</html>

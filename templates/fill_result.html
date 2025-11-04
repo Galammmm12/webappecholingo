@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>🎉 ผลลัพธ์เกมเติมคำ - {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fill_result.css') }}">
+
+</head>
+<body>
+  <h1> {{ game.title }}</h1>
+
+  <div class="score-box">
+    คุณได้คะแนน: <b>{{ score }}/{{ total }}</b> ✅
+  </div>
+
+  {% if hint_words %}
+  <div class="word-bank">
+    <b>คำที่ใช้เติม:</b>
+    {% for w in hint_words %}
+      <span class="chip">{{ w }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>ข้อ</th>
+        <th>ประโยค</th>
+        <th>คำตอบของคุณ</th>
+        <th>คำตอบที่ถูก</th>
+        <th>สถานะ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr class="{% if r.is_correct %}correct-row{% else %}wrong-row{% endif %}">
+        <td>{{ loop.index }}</td>
+        <td>{{ r.question }}</td>
+        <td>{{ r.user_answer }}</td>
+        <td>{{ r.correct_answer }}</td>
+        <td class="status">{% if r.is_correct %}✅{% else %}❌{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ url_for('student.unit_detail', unit_id=game.lesson_id, lang=game.lang) }}" class="back">
+⬅ กลับหน้าบทเรียน
+
+</body>
+</html>

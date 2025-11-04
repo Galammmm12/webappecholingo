@@ -1,0 +1,105 @@
+body {
+            font-family: 'Prompt', sans-serif;
+            background: #f5faff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            display: flex;
+            width: 1050px;
+            max-width: 95%;
+            height: 600px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .form-section {
+            flex: 1;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .form-section h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: #007acc;
+            text-align: center;
+        }
+        .form-section form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .form-section input[type="text"],
+        .form-section input[type="password"],
+        .form-section select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .error {
+            color: #e53935;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            line-height: 1.2;
+            max-width: 100%;
+            white-space: normal;
+            word-break: break-word;
+        }
+        .input-error {
+            border: 1px solid #e53935;
+            background: #ffecec; /* พื้นหลังจางๆเวลามี error */
+        }
+        .form-section button {
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #0097a7;
+        }
+        .form-section .login-link {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #333;
+            text-align: center;
+        }
+        .form-section .login-link a {
+            color: #00bcd4;
+            text-decoration: none;
+        }
+        .image-section {
+            flex: 1.2;
+            background: url('../images/l1.png') no-repeat center;   
+            background-size: contain;
+            
+        }
+        .logo { text-align: center; }
+        .logo img { width: 100px; display: block; margin: 0 auto; }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; width: 90%; height: auto; }
+            .image-section { height: 200px; }
+        }

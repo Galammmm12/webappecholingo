@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📋 คำถามในบทเรียน</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Prompt', sans-serif; background: #f5fbff; margin: 0; padding: 30px; }
+    .wrap { max-width: 1100px; margin: 0 auto; background: #fff; padding: 20px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { color: #004aad; text-align: center; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    th { background: #e9f4ff; color: #003e91; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .btn { border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .edit { background: #f59e0b; color: #fff; }
+    .delete { background: #e11d48; color: #fff; }
+    .edit:hover { background: #d97706; }
+    .delete:hover { background: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>📘 คำถามทั้งหมดในบทเรียน: {{ lesson.title }}</h2>
+
+    <a href="{{ url_for('admin_quiz.add_question', lesson_id=lesson.id) }}" class="btn" style="background:#007bff; color:white;">➕ เพิ่มคำถาม</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ประเภท</th>
+          <th>คำถาม</th>
+          <th>ตัวเลือก A</th>
+          <th>ตัวเลือก B</th>
+          <th>ตัวเลือก C</th>
+          <th>ตัวเลือก D</th>
+          <th>เฉลย</th>
+          <th>รูปภาพ</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for q in questions %}
+        <tr>
+          <td>{{ q.question_type|capitalize }}</td>
+          <td style="text-align:left;">{{ q.question }}</td>
+          <td>{{ q.option_a or '-' }}</td>
+          <td>{{ q.option_b or '-' }}</td>
+          <td>{{ q.option_c or '-' }}</td>
+          <td>{{ q.option_d or '-' }}</td>
+          <td style="color:#0066cc; font-weight:bold;">{{ q.correct_option }}</td>
+          <td>
+            {% if q.image_path %}
+              <img src="{{ url_for('static', filename=q.image_path) }}" alt="image" width="60">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('admin_quiz.edit_question', question_id=q.id) }}" class="btn edit">✏️</a>
+            <form method="POST" action="{{ url_for('admin_quiz.delete_question', question_id=q.id) }}" style="display:inline;">
+              <button type="submit" class="btn delete" onclick="return confirm('แน่ใจหรือไม่ว่าจะลบคำถามนี้?')">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

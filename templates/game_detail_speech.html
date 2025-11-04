@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รายละเอียดเกมพูด – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_speech.css') }}">
+  
+</head>
+<body>
+  <div class="wrap">
+    <h2>🎤 รายละเอียดเกมพูด – {{ game.title }}</h2>
+
+    <div class="actions">
+      <a class="btn primary" href="{{ url_for('admin.add_speech_question', game_id=game.id) }}">➕ เพิ่มคำถามพูด</a>
+      <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add">✏️ แก้ไขเกม</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>คำถาม (ภาษาจีน)</th>
+          <th>พินอิน (Pinyin)</th>
+          <th>คำตอบที่ถูกต้อง</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>
+            <div>{{ it.question_text or '-' }}</div>
+          </td>
+          <td>
+            <div style="color:#1e40af;">{{ it.pinyin or '-' }}</div>
+          </td>
+          <td>
+            <span class="pill" style="background:#e0f2fe;color:#1d4ed8">
+              {{ it.correct_answer or '-' }}
+            </span>
+          </td>
+          <td class="actions" style="justify-content:center;">
+            <a class="btn edit" href="{{ url_for('admin.edit_speech_question', game_id=game.id, item_id=it.id) }}">✏️ แก้ไข</a>
+            <form method="post" action="{{ url_for('admin.delete_speech_question', game_id=game.id, item_id=it.id) }}" onsubmit="return confirm('ลบคำถามนี้?')" style="display:inline;">
+              <button type="submit" class="btn delete">🗑️ ลบ</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="text-align:center;color:#64748b;padding:20px;">
+            ❌ ยังไม่มีคำถามในเกมนี้
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a class="back-link" href="{{ url_for('admin.dashboard') }}">⬅ กลับหน้าหลัก</a>
+  </div>
+</body>
+</html>

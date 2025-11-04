@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แก้ไขประเภทเกม | EchoLingo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_edit_gametype.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>✏️ แก้ไขประเภทเกม</h1>
+    <h2>{{ game_type.name }}</h2>
+
+    <form method="POST" class="form-box">
+      <div class="form-group">
+        <label for="name">รหัส/ชื่อ (name):</label>
+        <input id="name" name="name" value="{{ game_type.name }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">คำอธิบาย:</label>
+        <textarea id="description" name="description" rows="3">{{ game_type.description }}</textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn">💾 บันทึก</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn ghost">⬅ ยกเลิก</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

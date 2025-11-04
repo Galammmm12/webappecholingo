@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/play_choice_match.css') }}">
+</head>
+
+<body>
+  <div class="game-container">
+    <h2>{{ game.title }}</h2>
+    <p>{{ game.description }}</p>
+
+    <form method="POST">
+      <div class="choice-grid">
+        {% for block in display %}
+        <div class="item-card">
+          {% if block.item.prompt_image %}
+            <img src="{{ url_for('static', filename='images/' ~ block.item.prompt_image if not block.item.prompt_image.startswith('images/') else block.item.prompt_image) }}" alt="">
+          {% endif %}
+
+          {% if block.item.prompt_text %}
+            <div class="prompt">{{ block.item.prompt_text }}</div>
+          {% endif %}
+
+          <div class="options">
+            {% if block.options %}
+              {% for opt in block.options %}
+              <label class="chip">
+                <input type="radio" name="q{{ block.item.id }}" value="{{ opt }}">
+                <span class="badge">{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[loop.index0] }}</span>
+                <span class="txt">{{ opt }}</span>
+              </label>
+              {% endfor %}
+            {% else %}
+              <p style="color:red; text-align:center;">⚠ ไม่มีตัวเลือก</p>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn">✅ ส่งคำตอบ</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

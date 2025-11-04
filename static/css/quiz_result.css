@@ -1,0 +1,89 @@
+ body {
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: url("../images/8.png") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0288D1;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .score-box {
+      max-width: 500px;
+      margin: 0 auto 30px auto;
+      background: rgba(255,255,255,0.7);
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.7);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      backdrop-filter: blur(6px);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: linear-gradient(135deg, #0288D1, #26C6DA);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr.correct-row {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    tr.wrong-row {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    td.status {
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    a.back {
+      display: block;
+      max-width: 250px;
+      margin: 30px auto 0 auto;
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(135deg, #0288D1, #26C6DA);
+      color: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(2,136,209,0.3);
+      transition: all 0.25s ease;
+    }
+
+    a.back:hover {
+      background: linear-gradient(135deg, #0277BD, #00BCD4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(2,136,209,0.4);
+    }

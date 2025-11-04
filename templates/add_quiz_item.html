@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>เพิ่มข้อควิซ – {{ game.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/add_quiz_item.css') }}">
+</head>
+<body>
+<div class="wrap">
+  <h3>เพิ่มข้อควิซ – {{ game.title }}</h3>
+
+  <form method="POST">
+    <div>
+      <label for="q">คำถาม</label>
+      <textarea id="q" name="question" required></textarea>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="optA">ตัวเลือก A</label>
+        <input id="optA" type="text" name="option_a" required>
+      </div>
+      <div>
+        <label for="optB">ตัวเลือก B</label>
+        <input id="optB" type="text" name="option_b" required>
+      </div>
+      <div>
+        <label for="optC">ตัวเลือก C</label>
+        <input id="optC" type="text" name="option_c" required>
+      </div>
+      <div>
+        <label for="optD">ตัวเลือก D</label>
+        <input id="optD" type="text" name="option_d" required>
+      </div>
+    </div>
+
+    <div>
+      <label for="ans">เฉลย (เลือก A / B / C / D)</label>
+      <select id="ans" name="correct" required>
+        <option value="">-- กรุณาเลือกเฉลย --</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+      <div class="hint">เลือกเฉลยที่ถูกต้องตรงกับตัวเลือกด้านบน</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit">✅ บันทึก</button>
+      <a class="btn ghost" href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">⬅ กลับ</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  // ✅ ป้องกัน admin พิมพ์ผิด
+  document.querySelector('form').addEventListener('submit', e=>{
+    const correct = document.getElementById('ans').value.trim().toUpperCase();
+    if(!['A','B','C','D'].includes(correct)){
+      alert('กรุณาเลือกเฉลยเป็น A, B, C หรือ D เท่านั้น');
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>

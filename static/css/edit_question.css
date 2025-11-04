@@ -1,0 +1,96 @@
+    body {
+      font-family: 'Prompt', sans-serif;
+      margin: 0;
+      background: #f0f9ff;
+    }
+    header {
+      background: #9EE6FD;
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-container img {
+      height: 40px;
+    }
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    .logo-text .echo { color: #001D7D; }
+    .logo-text .lingo { color: #fff; }
+
+    .btn-logout {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .btn-logout:hover { background: #d32f2f; }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      border-left: 8px solid #007acc;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+    h1 {
+      color: #007acc;
+      margin-top: 0;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #001D7D;
+    }
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px;
+      font-size: 1rem;
+      font-family: 'Prompt', sans-serif;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      color: white;
+      font-weight: bold;
+      border-radius: 30px;
+      padding: 10px 20px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,114,255,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(0,114,255,0.4);
+    }
+    .btn-back {
+      background: #e0f2ff;
+      color: #001D7D;
+      margin-left: 10px;
+    }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>🎮 เกมในบทเรียน {{ lesson.title }} | EchoLingo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson_games.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 เกมในบทเรียน: {{ lesson.title }}</h1>
+
+    <div class="actions">
+      <!-- ✅ ไปหน้าสร้างเกม -->
+      <a href="{{ url_for('admin.add_game') }}" class="btn">➕ เพิ่มเกมใหม่</a>
+
+      <!-- ✅ กลับหน้าแดชบอร์ด -->
+      <a href="{{ url_for('admin.dashboard') }}" class="btn ghost">⬅ กลับ Dashboard</a>
+    </div>
+
+    <div class="game-list">
+      {% for game in games %}
+      <div class="game-item">
+     <a href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">
+  {{ game.title }} ({{ game.game_type }})
+</a>
+
+
+        <!-- ✅ ฟอร์มลบเกม -->
+       <form method="POST" 
+      action="{{ url_for('admin.delete_game', game_id=game.id) }}" 
+      style="display:inline;">
+  <button type="submit" class="btn red" 
+          onclick="return confirm('ต้องการลบเกมนี้หรือไม่?')">🗑 ลบ</button>
+</form>
+
+      </div>
+      {% else %}
+        <p style="text-align:center;color:#666;">ยังไม่มีเกมในบทเรียนนี้</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

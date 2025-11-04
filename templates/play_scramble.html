@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>Sentence Scramble - {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/play_scramble.css') }}">
+  
+</head>
+
+<body>
+<div class="container">
+  <h1>{{ game.title }}</h1>
+  <p>{{ game.description }}</p>
+
+  <form method="POST">
+    {% for it in scrambled %}
+      <div class="card" data-q="{{ it.id }}">
+        <div class="hint"><b>{{ loop.index }}.</b> เรียงคำให้ถูกต้อง</div>
+
+        <div class="bank" data-bank>
+          {% for w in it.words %}
+            <span class="chip" data-word>{{ w }}</span>
+          {% endfor %}
+        </div>
+
+        <div class="answer" data-answer></div>
+        <input type="hidden" name="q{{ it.id }}" value="">
+      </div>
+    {% endfor %}
+    <button type="submit">✅ ส่งคำตอบ</button>
+  </form>
+</div>
+
+<script>
+document.querySelectorAll('.card').forEach(card=>{
+  const bank   = card.querySelector('[data-bank]');
+  const answer = card.querySelector('[data-answer]');
+  const input  = card.querySelector('input[type=hidden]');
+
+  function updateInput(){
+    const words=[...answer.querySelectorAll('[data-word]')].map(e=>e.textContent.trim());
+    input.value = words.join('|');
+  }
+
+  function toggleMove(el){
+    const parent = el.parentElement;
+    (parent===bank?answer:bank).appendChild(el);
+    updateInput();
+  }
+
+  bank.addEventListener('click', e=>{ if(e.target.matches('[data-word]')) toggleMove(e.target) });
+  answer.addEventListener('click', e=>{ if(e.target.matches('[data-word]')) toggleMove(e.target) });
+});
+</script>
+</body>
+</html>

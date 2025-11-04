@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เติมคำ – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_fill.css') }}">
+</head>
+<body>     
+  <div class="container">
+    <h1>📘 เติมคำ – {{ game.title }}</h1>
+
+    <!-- Corrected URL generation with the blueprint name -->
+    <a href="{{ url_for('admin.add_fill_item', game_id=game.id) }}" class="button">➕ เพิ่มข้อเติมคำ</a>
+    <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+
+    {% if items %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>โจทย์</th>
+          <th>เฉลย</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td style="text-align:left">{{ item.sentence }}</td>
+          <td><strong>{{ item.correct_word }}</strong></td>
+          <td class="actions">
+            <!-- แก้ไข -->
+            <a href="{{ url_for('admin.edit_fill_item', game_id=game.id, item_id=item.id) }}" class="button">✏️ แก้ไข</a>
+
+            <!-- ลบข้อเติมคำ -->
+            <form method="POST" action="{{ url_for('admin.delete_fill_item', game_id=game.id, item_id=item.id) }}" style="display:inline" onsubmit="return confirm('ลบข้อเติมคำนี้?')">
+              <button type="submit" class="button delete">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="no-items">ยังไม่มีข้อเติมคำ</p>
+    {% endif %}
+    
+    <a href="{{ url_for('admin.dashboard') }}" class="back-link">⬅ กลับหน้ารายการเกม</a>
+
+  </div>
+</body>
+</html>

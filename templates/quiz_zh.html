@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 {{ "前测 (Pre-test)" if test_type=="pre" else "后测 (Post-test)" }} — 中文测验</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+  <style>
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f9f9ff;
+      text-align: center;
+      margin: 0;
+      padding: 30px;
+    }
+    h1 {
+      color: #2a4d8f;
+      margin-bottom: 25px;
+    }
+    .q-box {
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      margin: 20px auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 700px;
+      text-align: left;
+    }
+    .q-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .thumb {
+      display: block;
+      margin: 10px auto;
+      max-width: 150px;
+      border-radius: 6px;
+    }
+    button {
+      background: linear-gradient(90deg, #00b4db, #0083b0);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 25px;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📝 {{ " (Pre-test)" if test_type=="pre" else " (Post-test)" }}</h1>
+
+  <!-- ✅ ใช้ route ที่ถูกต้องสำหรับนักเรียน -->
+  <form method="post" action="{{ url_for('quiz.student_take_quiz', lesson_id=lesson.id, lang=lang, test_type=test_type) }}">
+    {% for q in questions %}
+      <div class="q-box">
+        <div class="q-text"> {{ loop.index }} ：{{ q.hanzi or q.question }}</div>
+        {% if q.pinyin %}
+          <p style="color:#777;">拼音：{{ q.pinyin }}</p>
+        {% endif %}
+        {% if q.meaning %}
+          <p style="color:#555;">意思：{{ q.meaning }}</p>
+        {% endif %}
+        {% if q.image_path %}
+          <img src="{{ url_for('static', filename=q.image_path) }}" class="thumb">
+        {% endif %}
+        <label><input type="radio" name="q{{ q.id }}" value="A"> A. {{ q.option_a }}</label><br>
+        <label><input type="radio" name="q{{ q.id }}" value="B"> B. {{ q.option_b }}</label><br>
+        <label><input type="radio" name="q{{ q.id }}" value="C"> C. {{ q.option_c }}</label><br>
+        <label><input type="radio" name="q{{ q.id }}" value="D"> D. {{ q.option_d }}</label>
+      </div>
+    {% endfor %}
+    <button type="submit">✅ ส่งคำตอบ</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif;
+  background: #f0faff;
+}
+.wrap {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+h2 {
+  text-align: center;
+  color: #001D7D;
+  margin-bottom: 20px;
+}
+
+/* ปุ่ม */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 6px 14px;          /* 🔹 ปรับเล็กลงจาก 10x18 */
+  font-size: 14px;            /* 🔹 ขนาดตัวอักษรเล็กลง */
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s;
+}
+.btn.primary {
+  background: #0072ff;
+  color: #fff;
+}
+.btn.primary:hover {
+  background: #0056b3;
+}
+.btn.edit {
+  background: #f59e0b;
+  color: #fff;
+}
+.btn.edit:hover {
+  background: #d97706;
+}
+.btn.delete {
+  background: #ef4444;
+  color: #fff;
+}
+.btn.delete:hover {
+  background: #dc2626;
+}
+.btn.ghost {
+  background: #e2e8f0;
+  color: #333;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+thead {
+  background: #e0f2fe;
+}
+thead th {
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #001D7D;
+}
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+tbody tr:hover {
+  background: #f9fafb;
+}
+td .pill {
+  display: inline-block;
+  background: #f1f5f9;
+  padding: 4px 10px;          /* 🔹 ลดขนาดเล็กลง */
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+td.actions {
+  text-align: center;
+}
+td.actions form {
+  display: inline;
+}
+.back-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #0072ff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+}
+.back-link:hover {
+  text-decoration: underline;
+}

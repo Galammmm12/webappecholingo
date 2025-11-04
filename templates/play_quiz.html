@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 แบบทดสอบ - {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/play_quiz.css') }}">
+ 
+</head>
+
+<body>
+  <div class="container">
+    <h1>📝 {{ game.title }}</h1>
+    <p style="text-align:center;">เลือกคำตอบที่ถูกต้องในแต่ละข้อ</p>
+
+    {% if played %}
+      <h3 style="color:gray;text-align:center;">คุณเคยทำแบบทดสอบนี้แล้ว ✅</h3>
+      <div class="back-btn">
+        <a href="{{ url_for('student.lesson_score_detail', lesson_id=game.lesson_id) }}">⬅ กลับหน้าบทเรียน</a>
+      </div>
+    {% else %}
+      <form method="post">
+        {% for q in items %}
+        <div class="question-box">
+          <p><b>{{ loop.index }}.</b> {{ q.question }}</p>
+
+          {% if q.image_path %}
+            <img src="{{ url_for('uploaded_file', filename=q.image_path.split('/')[-1]) }}" 
+                 alt="question image" class="question-image">
+          {% endif %}
+
+          <label><input type="radio" name="q{{ q.id }}" value="A"> A. {{ q.option_a }}</label>
+          <label><input type="radio" name="q{{ q.id }}" value="B"> B. {{ q.option_b }}</label>
+          <label><input type="radio" name="q{{ q.id }}" value="C"> C. {{ q.option_c }}</label>
+          
+        </div>
+        {% endfor %}
+
+        <button type="submit">✅ ส่งคำตอบ</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <script>
+  // 🎯 แสดงคะแนนระหว่างทำ
+  document.addEventListener("DOMContentLoaded", () => {
+    const total = {{ items|length }};
+    const corrects = {
+      {% for q in items %}
+        "q{{ q.id }}": "{{ q.correct or q.correct_option or '' }}"{% if not loop.last %},{% endif %}
+      {% endfor %}
+    };
+    const answers = {};
+
+    document.querySelectorAll("input[type=radio]").forEach(r => {
+      r.addEventListener("change", () => {
+        answers[r.name] = r.value.trim().toUpperCase();
+        let score = 0;
+        for (let key in answers) {
+          if (answers[key] === (corrects[key] || "").trim().toUpperCase()) score++;
+        }
+        document.getElementById("current-score").textContent = score;
+      });
+    });
+  });
+  </script>
+</body>
+</html>

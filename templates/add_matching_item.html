@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>➕ เพิ่มคำในเกมจับคู่</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_matching_item.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>➕ เพิ่มคำในเกมจับคู่</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <label>🎵 ไฟล์เสียง (Question Audio):</label>
+      <input type="file" name="question_audio" accept=".mp3,.wav" required>
+
+      <label>💬 ข้อความคำตอบ (Answer Text):</label>
+      <input type="text" name="answer_text" required>
+
+      <label>🔗 Pair Group (เลขเดียวกัน = คู่เดียวกัน):</label>
+      <input type="number" name="pair_group" min="1" required>
+
+      <button type="submit">✅ บันทึก</button>
+    </form>
+
+    <a href="{{ url_for('admin.view_game_detail', game_id=game.id) }}" class="back">⬅ กลับไปหน้าเกม</a>
+  </div>
+</body>
+</html>

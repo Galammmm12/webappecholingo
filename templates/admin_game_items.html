@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Vocabulary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/add_game_item.css') }}">
+
+
+</head>
+<body>
+    <header>📖 Vocabulary for {{ game.title }}</header>
+    <div class="container">
+        <a href="/admin/game/{{ game.id }}/items/add" class="btn-add">➕ Add Vocabulary</a>
+        <ul>
+            {% for item in items %}
+            <li>
+                <span>{{ item.correct_word }}</span>
+                <img src="/static/images/{{ item.image_name }}" width="70" alt="{{ item.correct_word }}">
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="/admin/games" class="btn-back">⬅️ Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คะแนนของ {{ student.username }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Prompt', sans-serif;
+      background: url("{{ url_for('static', filename='images/6.png') }}") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    header {
+      background: linear-gradient(90deg, #9EE6FD);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 25px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    .logo-container { display: flex; align-items: center; }
+    .logo-container img { height: 45px; margin-right: 10px; }
+    .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; text-decoration:none; }
+    .logo-text .echo { color: #001D7D; }
+    .logo-text .lingo { color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+    nav a { margin: 0 12px; text-decoration: none; color: #001D7D; font-weight: 600; transition: color 0.3s ease; }
+    nav a:hover { color: #ffffff; }
+    .btn-logout {
+      background: #ff4d4d; color: white; border: none; padding: 8px 15px;
+      border-radius: 20px; font-weight: bold; text-decoration: none; transition: background 0.3s ease;
+    }
+    .btn-logout:hover { background: #d32f2f; }
+
+    .container {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 { text-align: center; color: #001D7D; margin-bottom: 25px; }
+    h3 { color: #007acc; margin-top: 35px; margin-bottom: 10px; }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 15px 0 25px 0;
+      font-size: 0.95rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    th {
+      background: linear-gradient(90deg, #007acc, #005f99);
+      color: #fff;
+      text-align: center;
+      padding: 12px;
+      font-size: 1rem;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:nth-child(even) td { background: #f9fcff; }
+    tr:hover td { background: #e6f3ff; transition: 0.3s; }
+
+    .btn-reset {
+      background: linear-gradient(90deg, #e66161);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-reset:hover {
+      background: linear-gradient(90deg, #01bb30);
+      transform: translateY(-2px);
+    }
+
+    .btn-reset:active {
+      transform: scale(0.95);
+      background: #01bb30;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: rgba(255,255,255,0.7);
+      color: #333;
+      font-size: 0.9rem;
+      margin-top: 20px;
+      border-radius: 0 0 10px 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ Header -->
+  <header>
+    <div class="logo-container">
+      <a href="{{ url_for('teacher.teacher_ranking') }}" style="display:flex; align-items:center; text-decoration:none;">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+        <span class="logo-text">
+          <span class="echo">Echo</span><span class="lingo">Lingo</span>
+        </span>
+      </a>
+    </div>
+    <nav>
+      <a href="{{ url_for('teacher.teacher_ranking') }}">🏆 Ranking</a>
+      <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+    </nav>
+  </header>
+
+  <!-- ✅ Main Content -->
+  <div class="container">
+    <h2>📊 คะแนนของ {{ student.username }}</h2>
+
+    <h3>🎮 คะแนนเกม</h3>
+    <table>
+      <tr>
+        <th>🎮 เกม</th>
+        <th>📘 บทเรียน</th>
+        <th>⭐ คะแนน</th>
+        <th>⚙️ จัดการ</th>
+      </tr>
+      {% for game_score, game_title, lesson_title in game_scores %}
+      <tr>
+        <td>{{ game_title }}</td>
+        <td>{{ lesson_title }}</td>
+        <td>{{ game_score.score }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('teacher.reset_game_score', student_id=student.id, game_id=game_score.game_id) }}">
+            <button type="submit" class="btn-reset">🔄 อนุมัติให้แก้ไข</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>📝 คะแนน Pre / Post Test</h3>
+    <table>
+      <tr>
+        <th>📘 บทเรียน</th>
+        <th>ประเภท</th>
+        <th>⭐ คะแนน</th>
+        <th>⚙️ จัดการ</th>
+      </tr>
+      {% for quiz_result, lesson_title in quiz_scores %}
+      <tr>
+        <td>{{ lesson_title }}</td>
+        <td>{{ quiz_result.test_type }}</td>
+        <td>{{ quiz_result.score }}</td>
+        <td>
+         <form method="POST" action="{{ url_for('teacher.reset_quiz_score', student_id=student.id, lesson_id=quiz_result.lesson_id, test_type=quiz_result.test_type) }}">
+            <button type="submit" class="btn-reset">✏️ อนุมัติให้แก้ไข</button>
+         </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+
+</body>
+</html>

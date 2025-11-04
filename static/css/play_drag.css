@@ -1,0 +1,66 @@
+body {
+  font-family: "Prompt", sans-serif;
+  margin: 0;
+  flex-direction: column;
+  align-items: center;
+  background: url("../images/6.png") no-repeat center center fixed;
+  background-size: cover;
+
+}
+.header-section {
+  text-align: center;
+  margin: 40px 0 25px;   /* เว้นบน-ล่างให้พอดี */
+}
+
+.header-section h1 {
+  color: #0288d1;
+  font-size: 2rem;
+  margin: 0 0 10px;
+}
+
+.header-section p {
+  color: #444;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+  h1
+  {
+    text-align:center;color:#a0d3f5;
+    margin-bottom:5px
+  }
+  p{text-align:center;color:#666;margin-bottom:20px}
+  .game-wrapper{display:flex;justify-content:center;gap:30px;max-width:1200px;margin:auto}
+  .word-list {
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  border:3px solid #b39ddb;
+  width:220px;
+  height:fit-content;
+
+  position: sticky;   /* ✅ ให้กล่องติด */
+  top: 20px;          /* เว้นระยะจากขอบบน */
+}
+
+  .word{background:linear-gradient(45deg,#ff80ab,#ba68c8)
+    ;color:#fff;padding:8px 14px;
+    border-radius:20px;
+    margin:5px;font-size:.9rem;
+    font-weight:bold;
+    display:inline-block;
+    cursor:grab;
+    box-shadow:0 3px 6px rgba(0,0,0,0.15);
+    transition:transform .2s
+}
+  .word:hover{transform:scale(1.05)}
+  .game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1}
+  .game-card{background:#fff;border-radius:18px;padding:15px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.08);border:2px solid #f8bbd0;transition:.2s}
+  .game-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,0.15)}
+  .game-card img{width:140px;height:140px;object-fit:cover;border-radius:15px;border:3px solid #f48fb1;background:#fff0f6;cursor:pointer}
+  .drop-zone{margin-top:12px;padding:12px;border:3px dashed #7e57c2;border-radius:12px;min-height:50px;background:#f3e5f5;font-weight:bold;font-size:.9rem;color:#5e35b1;transition:.2s}
+  .drop-zone:hover{background:#ede7f6;border-color:#5e35b1}
+  #controls{text-align:center;margin-top:25px}
+  button.main-btn{background:#007acc;color:#fff;padding:12px 28px;border:none;border-radius:30px;font-weight:bold;font-size:1rem;cursor:pointer;transition:.2s;box-shadow:0 4px 10px rgba(0,114,255,0.3)}
+  button.main-btn:hover{background:#005f99}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>Scramble – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_scramble.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <h2>Scramble – {{ game.title }}</h2>
+
+    <div class="toolbar">
+      <!-- Button to add a new sentence -->
+      <a class="btn" href="{{ url_for('admin.add_scramble_item', game_id=game.id) }}">➕ เพิ่มประโยคใหม่</a>
+
+      <!-- Button to edit the game -->
+<a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+
+    </div>
+
+    <div class="card">
+      <!-- Check if there are no items -->
+      {% if items|length == 0 %}
+        <p style="padding:16px" class="muted">ยังไม่มีประโยคในเกมนี้</p>
+      {% else %}
+        <table>
+          <thead>
+            <tr>
+              <th style="width:72px">ID</th>
+              <th>ประโยค</th>
+              <th style="width:220px">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through each sentence item -->
+            {% for it in items %}
+              <tr>
+                <td>{{ it.id }}</td>
+                <td class="sentence">
+                  {% if it.sentence %}
+                    {{ it.sentence }}
+                  {% else %}
+                    {{ it.sentence_json|join(' ') }}
+                  {% endif %}
+                </td>
+
+                <td class="actions">
+                  <!-- Button to edit a sentence -->
+                  <a class="btn warn" href="{{ url_for('admin.edit_scramble_item', game_id=game.id, item_id=it.id) }}">แก้ไข</a>
+                  
+                  <!-- Form to delete the sentence -->
+                  <form action="{{ url_for('admin.delete_scramble_item', game_id=game.id, item_id=it.id) }}"
+                        method="post" onsubmit="return confirm('ลบรายการนี้?')" style="display:inline">
+                    <button class="btn danger" type="submit">ลบ</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+
+    <!-- Link to go back to the admin home -->
+    <a href="{{ url_for('admin.dashboard') }}" class="back-link">⬅ กลับหน้ารายการเกม</a>
+
+  </div>
+</body>
+</html>

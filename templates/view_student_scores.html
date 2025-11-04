@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คะแนนของ {{ student.username }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/view_student_scores.css') }}">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <a href="{{ url_for('teacher_dashboard') }}" style="display:flex; align-items:center; text-decoration:none;">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+        <span class="logo-text">
+          <span class="echo">Echo</span><span class="lingo">Lingo</span>
+        </span>
+      </a>
+    </div>
+    <nav>
+      <a href="{{ url_for('teacher_dashboard') }}">🏠 Dashboard</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </header>
+
+  
+  <div class="container">
+    <h2>📊 คะแนนของ {{ student.username }}</h2>
+
+    <h3>🎮 คะแนนเกม</h3>
+    <table>
+      <tr>
+        <th>🎮 เกม</th>
+        <th>📘 บทเรียน</th>
+        <th>⭐ คะแนน</th>
+        <th>⏰ เวลาเล่น</th>
+        <th>⚙️ จัดการ</th>
+      </tr>
+      {% for g, game_title, lesson_title in exercise_scores %}
+      <tr>
+        <td>{{ game_title }}</td>
+        <td>{{ lesson_title }}</td>
+        <td>{{ g.score }}</td>
+        <td>{{ g.played_at }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('reset_game_score', student_id=student.id, game_id=g.game_id) }}">
+            <button type="submit" class="btn-reset">🔄 อนุมัติให้แก้ไข</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>📝 คะแนน Pre / Post Test</h3>
+    <table>
+      <tr>
+        <th>📘 บทเรียน</th>
+        <th>ประเภท</th>
+        <th>⭐ คะแนน</th>
+        <th>⚙️ จัดการ</th>
+      </tr>
+      {% for q, lesson_title in test_scores %}
+      <tr>
+        <td>{{ lesson_title }}</td>
+        <td>{{ q.test_type }}</td>
+        <td>{{ q.score }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('reset_quiz_score', student_id=student.id, lesson_id=q.lesson_id, test_type=q.test_type) }}">
+            <button type="submit" class="btn-reset">✏️ อนุมัติให้แก้ไข</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <a href="{{ url_for('teacher_dashboard') }}" class="back-btn">⬅ กลับหน้าครู</a>
+  </div>
+
+
+</body>
+</html>

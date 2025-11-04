@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+instance/
+uploads/
+audio/
+.env
+*.db
+*.sqlite3
+
+# Certificates
+*.pem
+openssl.cnf
+
+# VSCode / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,109 @@
+  body {
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: url("../images/6.png") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0288D1;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    form {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffffcc;
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease;
+    }
+
+    form:hover {
+      transform: scale(1.01);
+    }
+
+    .q-box {
+      margin-bottom: 25px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #fefefe;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      transition: 0.2s;
+    }
+
+    .q-box:hover {
+      background: #f8fbff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .q-text {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    img.thumb {
+      max-width: 200px;
+      border-radius: 12px;
+      display: block;
+      margin: 12px 0;
+      border: 2px solid #e0f2f1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 6px 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      cursor: pointer;
+      background: #f9f9f9;
+    }
+
+    label:hover {
+      background: #e1f5fe;
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+      transform: scale(1.2);
+      accent-color: #0288D1;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: linear-gradient(135deg, #0288D1, #26C6DA);
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(2,136,209,0.3);
+      transition: all 0.25s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0277BD, #00BCD4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(2,136,209,0.4);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #888;
+    }

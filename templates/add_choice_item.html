@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เพิ่ม Choice – {{ game.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#2563eb;
+    --bg:#f0f5ff;
+    --panel:#fff;
+    --border:#e2e8f0;
+  }
+  body{
+    font-family:"Prompt",sans-serif;
+    background:var(--bg);
+    margin:0;
+    padding:24px;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+  }
+  label{
+    display:block;
+    margin-top:12px;
+    margin-bottom:6px;
+  }
+  input[type="text"], textarea, input[type="file"]{
+    width:100%;
+    padding:10px;
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+  .row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    background:var(--primary);
+    border:none;
+    color:#fff;
+    border-radius:10px;
+    padding:10px 14px;
+    cursor:pointer;
+  }
+  a.btn{
+    display:inline-block;
+    text-decoration:none;
+    text-align:center;
+  }
+  .btn.gray{
+    background:#475569;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>➕ เพิ่ม Choice – {{ game.title }}</h2>
+  <div class="card">
+    <!-- ✅ ใช้ Blueprint prefix "admin." -->
+    <form action="{{ url_for('admin.add_choice_item', game_id=game.id) }}" method="post" enctype="multipart/form-data">
+      <label>ข้อความโจทย์ (เว้นว่างได้ถ้าใช้รูป)</label>
+      <input type="text" name="prompt_text" placeholder="เช่น เลือกคำทักทายที่ถูกต้อง">
+
+      <label>รูปภาพโจทย์ (อัปโหลดได้ถ้าอยากใช้รูป)</label>
+      <input type="file" name="prompt_image" accept="image/*">
+
+      <label>ตัวเลือก (คั่นด้วย ; )</label>
+      <textarea name="options" rows="3" required placeholder="Good morning;Good night;Good evening;Good afternoon"></textarea>
+
+      <label>เฉลย (ต้องตรงกับหนึ่งในตัวเลือก)</label>
+      <input type="text" name="correct" required placeholder="Good morning">
+
+      <div class="row" style="margin-top:16px">
+        <button class="btn" type="submit">💾 บันทึก</button>
+        <!-- ✅ กลับไปหน้ารายละเอียดเกม -->
+        <a class="btn gray" href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">ยกเลิก</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

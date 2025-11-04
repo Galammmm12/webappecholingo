@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ unit.title }} - 游戏 (Chinese Games)</title>
+  <style>
+    .game-card { 
+        border:1px solid #ddd; border-radius:10px; 
+        padding:15px; margin:10px; background:#fff;
+        box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    }
+    .game-card h3 { margin:0; color:#2563eb; }
+    .game-card p { margin:5px 0; }
+  </style>
+</head>
+<body>
+  <h1>{{ unit.title }} 的游戏</h1>
+
+  {% if games %}
+    {% for g in games %}
+      <div class="game-card">
+        <h3>{{ g.title }}</h3>
+        <p>{{ g.description }}</p>
+        <a href="{{ url_for('play_game_zh', game_id=g.id) }}">开始游戏</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>还没有游戏哦～</p>
+  {% endif %}
+</body>
+</html>

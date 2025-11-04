@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>➕ เพิ่มเกมใหม่ | EchoLingo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_game_admin.css') }}">
+</head>
+
+<body>
+  <div class="wrap">
+    <h2>➕ เพิ่มเกมใหม่</h2>
+
+    <div class="card">
+      <form method="POST" action="{{ url_for('admin.add_game') }}">
+        <div>
+          <label for="title">ชื่อเกม (Title) *</label>
+          <input id="title" type="text" name="title" required placeholder="เช่น Crossword – Food & Drinks">
+        </div>
+
+        <div>
+          <label for="description">คำอธิบาย (Description)</label>
+          <textarea id="description" name="description" placeholder="คำอธิบายสั้น ๆ ของเกมนี้"></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="language">ภาษา *</label>
+            <select id="language" name="lang" onchange="toggleLessons()" required>
+              <option value="en">อังกฤษ (English)</option>
+              <option value="zh">จีน (Chinese)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="lesson_id">บทเรียน (Lesson) *</label>
+            <select id="lesson_id" name="lesson_id" required>
+              {% for lesson in lessons %}
+                <option value="{{ lesson.id }}">{{ lesson.title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="game_type">ประเภทเกม (Game Type) *</label>
+          <select id="game_type" name="game_type" required>
+            {% for gtype in game_types %}
+              <option value="{{ gtype.name }}">{{ gtype.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn">✅ บันทึก</button>
+          <a class="btn ghost" href="{{ url_for('admin.dashboard') }}">⬅ กลับหน้าแดชบอร์ด</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>จัดการประเภทเกม - EchoLingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_type.css') }}">
+
+</head>
+<body>
+  <div class="card">
+    <h1>🎮 จัดการประเภทเกม</h1>
+    <a href="{{ url_for('add_game_type') }}" class="btn btn-add">➕ เพิ่มประเภทเกมใหม่</a>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ชื่อประเภท</th>
+          <th>คำอธิบาย</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in types %}
+        <tr>
+          <td>{{ t.id }}</td>
+          <td>{{ t.name }}</td>
+          <td>{{ t.description or '-' }}</td>
+          <td>
+            <a href="{{ url_for('edit_game_type', type_id=t.id) }}" class="btn btn-edit">✏️ แก้ไข</a>
+            <form action="{{ url_for('delete_game_type', type_id=t.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประเภทเกมนี้?');">
+              <button type="submit" class="btn btn-delete">🗑 ลบ</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4">ยังไม่มีประเภทเกม</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    <a href="{{ url_for('admin_home') }}" class="btn">⬅ กลับแดชบอร์ด</a>
+  </div>
+</body>
+</html>

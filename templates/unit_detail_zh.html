@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ unit.title }} - EchoLingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/unit_detail_zh.css') }}" />
+</head>
+<body>
+  <!-- ✅ Header -->
+  <header>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo" />
+      <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+    </div>
+
+    <nav>
+      <a href="{{ url_for('student.dashboard_zh') }}">Home</a>
+      <a href="{{ url_for('student.exercise_score_zh') }}">Exercise Score</a>
+      <a href="{{ url_for('student.test_scores_zh') }}">Test Score</a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+  </header>
+
+  <div class="container">
+    <!-- ✅ Title -->
+    <h2>
+      {{ unit.title }}
+      {% if unit.title_pinyin %}
+        <br><small>{{ unit.title_pinyin }}</small>
+      {% endif %}
+    </h2>
+
+    <!-- ✅ Test Section -->
+    <div class="section">
+      <div class="section-title">📝 Test</div>
+      <div class="test-grid">
+
+       <!-- Pre-Test -->
+<div class="test-box">
+  <h4>Pre-Test</h4>
+  {% if pre_done %}
+    <span class="status done">✅ Done</span>
+    <a class="btn" href="{{ url_for('student.test_scores_zh') }}">Review</a>
+  {% else %}
+    <span class="status pending">🔴 Not Done</span>
+<a class="btn" href="{{ url_for('quiz.student_take_quiz', lesson_id=unit.id, lang=unit.lang, test_type='pre') }}">Start</a>
+  {% endif %}
+</div>
+
+<!-- Post-Test -->
+<div class="test-box">
+  <h4>Post-Test</h4>
+  {% if not pre_done %}
+    <span class="status pending">🔒 Locked</span>
+    <a class="btn disabled" title="Do Pre-Test first">Locked</a>
+  {% else %}
+    {% if post_done %}
+      <span class="status done">✅ Done</span>
+      <a class="btn" href="{{ url_for('student.test_scores_zh') }}">Review</a>
+    {% else %}
+      <span class="status pending">🔴 Not Done</span>
+<a class="btn" href="{{ url_for('quiz.student_take_quiz', lesson_id=unit.id, lang=unit.lang, test_type='post') }}">Start</a>
+    {% endif %}
+  {% endif %}
+</div>
+
+
+      </div>
+    </div>
+
+    <!-- ✅ Games Section -->
+    <div class="section">
+      <div class="section-title">🎮 Exercise</div>
+      {% if games %}
+        <div class="games-grid">
+          {% for game in games %}
+            <div class="game-card">
+              <div class="game-title">🎲 {{ game.title }}</div>
+              <a href="{{ url_for('game.play_game', game_id=game.id) }}" class="play-btn">
+                {{ "开始" if lang=="zh" else "Play" }}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="text-align:center;color:#888;margin:10px 0 0;">此单元还没有游戏。</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

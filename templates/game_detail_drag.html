@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>คำศัพท์ในเกม: {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_drag.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>📚 คำศัพท์ในเกม: {{ game.title }}</h1>
+
+    <a href="{{ url_for('admin.add_game_item', game_id=game.id) }}" class="btn btn-add">➕ เพิ่มคำศัพท์ใหม่</a>
+    <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+
+    <table>
+      <tr>
+        <th>รูปภาพ</th>
+        {% if game.lang == 'zh' %}
+          <th>คำจีน (汉字)</th>
+          <th>พินอิน (拼音)</th>
+        {% else %}
+          <th>English</th>
+        {% endif %}
+        <th>เสียง</th>
+        <th>การจัดการ</th>
+      </tr>
+
+      {% for item in items %}
+      <tr>
+        <td>
+          {% if item.image_name %}
+            <img src="{{ url_for('static', filename='images/' + item.image_name) }}" width="100">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/placeholder.png') }}" width="100" style="opacity:0.6;">
+            <div style="color:#888;font-size:13px;">(ไม่มีรูป)</div>
+          {% endif %}
+        </td>
+
+        {% if game.lang == 'zh' %}
+          <td>{{ item.correct_word }}</td>
+          <td>{{ item.pinyin or '-' }}</td>
+        {% else %}
+          <td>{{ item.correct_word }}</td>
+        {% endif %}
+
+        <td>
+          <button class="btn-sound" onclick="speakWord('{{ item.correct_word }}')">🔊 ฟัง</button>
+        </td>
+
+        <td>
+          <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+          <form method="POST" action="{{ url_for('admin.delete_game_item', game_id=game.id, item_id=item.id) }}" style="display:inline;">
+            <button type="submit" class="btn btn-del">ลบ</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <a href="{{ url_for('admin.dashboard') }}" class="back-link">⬅ กลับหน้ารายการเกม</a>
+  </div>
+
+  <script>
+  function speakWord(word) {
+    let msg = new SpeechSynthesisUtterance(word);
+    msg.lang = "{{ 'zh-CN' if game.lang == 'zh' else 'en-US' }}";
+    msg.rate = {{ 0.7 if game.lang == 'zh' else 0.9 }};
+    window.speechSynthesis.speak(msg);
+  }
+  </script>
+</body>
+</html>

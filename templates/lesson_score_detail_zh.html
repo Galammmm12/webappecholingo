@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ lesson.title }} - 游戏分数</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson_score_detail_zh.css') }}">
+</head>
+<body>
+<header>
+  <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+      <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+  </div>
+  <div class="nav-center">
+     <nav>
+        <!-- ✅ แก้ให้ใช้ชื่อ blueprint -->
+        <a href="{{ url_for('student.dashboard_zh') }}">Home</a>
+        <a href="{{ url_for('student.exercise_score_zh') }}">Exercise Score</a>
+        <a href="{{ url_for('student.test_scores_zh') }}">Test Score</a>
+     </nav>
+  </div>
+
+  <!-- ✅ ปุ่ม logout -->
+  <div class="right-controls">
+      <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+  </div>
+</header>
+
+<div class="score-title">⭐ {{ lesson.title }} - 游戏分数 ⭐</div>
+
+<div class="unit-container">
+  {% for g in games %}
+    <div class="unit-card">
+      <h3>{{ g.title }}</h3>
+      <div class="circular-progress">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"></circle>
+          <circle class="progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+        <div class="score-text"></div>
+      </div>
+      <div class="status-text"></div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+const scores = {{ scores|tojson }};
+
+function animateValue(el, start, end, duration) {
+  let startTime = null;
+  function step(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    el.innerText = Math.floor(progress * (end - start) + start) + "/10";
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+document.querySelectorAll(".unit-card").forEach((card, idx) => {
+  const score = scores[idx] || 0;
+  const max = 10;
+  const percent = (score / max) * 100;
+
+  const progress = card.querySelector(".progress");
+  const text = card.querySelector(".score-text");
+  const status = card.querySelector(".status-text");
+
+  const r = 40;
+  const circumference = 2 * Math.PI * r;
+  progress.style.strokeDasharray = circumference;
+  progress.style.strokeDashoffset = circumference;
+
+  setTimeout(() => {
+    progress.style.strokeDashoffset = circumference * (1 - percent/100);
+  }, 100);
+
+  animateValue(text, 0, score, 1000);
+
+  setTimeout(()=> {
+    if(score === 10){
+      progress.style.stroke = "#2ecc71";
+      status.innerText = "完美!";
+      status.style.color = "#2ecc71";
+    } else if(score >= 8){
+      progress.style.stroke = "#27ae60";
+      status.innerText = "非常棒!";
+      status.style.color = "#27ae60";
+    } else if(score >= 6){
+      progress.style.stroke = "#f1c40f";
+      status.innerText = "不错!";
+      status.style.color = "#f1c40f";
+    } else if(score >= 4){
+      progress.style.stroke = "#e67e22";
+      status.innerText = "继续加油!";
+      status.style.color = "#e67e22";
+    } else {
+      progress.style.stroke = "#e74c3c";
+      status.innerText = "加油!";
+      status.style.color = "#e74c3c";
+    }
+  },800);
+});
+
+// ✅ toggle EN/ZH redirect
+const langSwitch = document.getElementById("langSwitch");
+if (langSwitch) {
+  langSwitch.addEventListener("change", function() {
+    if (this.checked) {
+      window.location.href = "{{ url_for('student.lesson_score_detail_zh', lesson_id=lesson.id) }}";
+    } else {
+      window.location.href = "{{ url_for('student.lesson_score_detail', lesson_id=lesson.id) }}";
+    }
+  });
+}
+</script>
+</body>
+</html>

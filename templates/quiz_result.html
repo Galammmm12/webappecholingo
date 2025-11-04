@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 ผลการทำแบบทดสอบ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz_result.css') }}">
+</head>
+<body>
+  <div class="score-box">🎉 คะแนนของคุณ: <b>{{ score }}/{{ total }}</b> 🎉</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ข้อ</th>
+        <th>คำถาม</th>
+        <th>คำตอบของคุณ</th>
+        <th>คำตอบที่ถูก</th>
+        <th>สถานะ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ans in results %}
+      <tr class="{% if ans.is_correct %}correct-row{% else %}wrong-row{% endif %}">
+        <td>{{ loop.index }}</td>
+        <td>{{ ans.question }}</td>
+
+        <!-- 🧩 คำตอบของผู้ใช้ -->
+        <td>
+          {% if ans.user_answer %}
+            {{ ans.user_answer }}
+            (
+            {% if ans.user_answer == 'A' %}{{ ans.option_a }}
+            {% elif ans.user_answer == 'B' %}{{ ans.option_b }}
+            {% elif ans.user_answer == 'C' %}{{ ans.option_c }}
+            {% elif ans.user_answer == 'D' %}{{ ans.option_d }}
+            {% endif %}
+            )
+          {% else %}
+            <span style="color:gray;">—</span>
+          {% endif %}
+        </td>
+
+        <!-- ✅ คำตอบที่ถูก -->
+        <td>
+          {{ ans.correct_option }}
+          (
+          {% if ans.correct_option == 'A' %}{{ ans.option_a }}
+          {% elif ans.correct_option == 'B' %}{{ ans.option_b }}
+          {% elif ans.correct_option == 'C' %}{{ ans.option_c }}
+          {% elif ans.correct_option == 'D' %}{{ ans.option_d }}
+          {% endif %}
+          )
+        </td>
+
+        <!-- 🔎 สถานะ -->
+        <td class="status">
+          {% if ans.user_answer and ans.user_answer == ans.correct_option %}
+            ✅
+          {% else %}
+            ❌
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ url_for('student.unit_detail', unit_id=lesson.id) }}?lang={{ lang }}" class="back">⬅ กลับหน้าบทเรียน</a>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - EchoLingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+</head>
+
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+      <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+    </div>
+    <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+  </header>
+
+  <div class="container">
+    <!-- 📚 จัดการบทเรียน -->
+    <div class="card">
+      <h2>📚 จัดการบทเรียน</h2>
+      <a href="{{ url_for('admin.add_lesson') }}" class="btn">➕ เพิ่มบทเรียน</a>
+      <div class="lesson-list">
+        {% for lesson in lessons %}
+          <div class="row">
+            <span class="title">{{ lesson.title }}</span>
+            <div class="actions">
+              <a href="{{ url_for('admin.lesson_games', lesson_id=lesson.id) }}" class="btn green">🎮 เกม</a>
+<a href="{{ url_for('admin.lesson_tests', lesson_id=lesson.id) }}" class="btn orange">➕ Pre/Post</a>
+
+
+              <a href="{{ url_for('admin.edit_lesson', id=lesson.id) }}" class="btn gray">✏️ แก้ไข</a>
+              <form method="POST" action="{{ url_for('admin.delete_lesson', lesson_id=lesson.id) }}" style="display:inline;">
+
+                <button type="submit" class="delete-btn">🗑 ลบ</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- 🗂️ จัดการประเภทเกม -->
+    <div class="card">
+      <h2>🗂️ จัดการประเภทเกม</h2>
+      <a href="{{ url_for('admin.add_gametype') }}" class="btn">➕ เพิ่มประเภทเกม</a>
+      <div class="game-list">
+        {% for t in game_types %}
+          <div class="row">
+            <span class="title">{{ t.name }}</span>
+            <div class="actions">
+              <a href="{{ url_for('admin.edit_gametype', id=t.id) }}" class="btn gray">✏️ แก้ไข</a>
+              <form method="POST" action="{{ url_for('admin.delete_gametype', id=t.id) }}" style="display:inline;">
+                <button type="submit" class="delete-btn">🗑 ลบ</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แก้ไขคำศัพท์</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_game_item.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>✏️ แก้ไขคำศัพท์</h1>
+    <form method="POST" enctype="multipart/form-data">
+  <label for="image_file">📷 เปลี่ยนรูปภาพ (ถ้าต้องการ):</label>
+  <input type="file" name="image_file" accept="image/*">
+
+  {% if game.lang == "zh" %}
+    <!-- เกมจีน -->
+    <label for="correct_word">🇨🇳 คำศัพท์ภาษาจีน (汉字):</label>
+    <input type="text" name="correct_word" value="{{ item.correct_word }}" required>
+
+    <label for="pinyin">🔤 พินอิน (拼音):</label>
+    <input type="text" name="pinyin" value="{{ item.pinyin }}" required>
+  
+  {% elif game.lang == "en" %}
+    <!-- เกมอังกฤษ -->
+    <label for="correct_word">🇬🇧 คำศัพท์ภาษาอังกฤษ:</label>
+    <input type="text" name="correct_word" value="{{ item.correct_word }}" required>
+  {% endif %}
+
+  <button type="submit">💾 บันทึกการแก้ไข</button>
+</form>
+
+  </div>
+</body>
+</html>

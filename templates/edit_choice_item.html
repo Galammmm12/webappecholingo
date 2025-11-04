@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>แก้ไข Choice – {{ game.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/edit_choice_item.css') }}">
+
+</head>
+<body>
+<div class="wrap">
+  <h2>แก้ไข Choice – {{ game.title }}</h2>
+  <div class="card">
+    <form action="{{ url_for('admin.edit_choice_item', game_id=game.id, item_id=item.id) }}" method="post" enctype="multipart/form-data">
+
+      <label>ข้อความโจทย์</label>
+      <input type="text" name="prompt_text" value="{{ item.prompt_text or '' }}">
+
+      <label>รูปภาพโจทย์</label>
+      {% if item.prompt_image %}
+        <div style="margin-bottom:8px">
+          <img class="thumb" src="{{ url_for('static', filename=item.prompt_image) }}" alt="">
+        </div>
+      {% endif %}
+      <input type="file" name="prompt_image" accept="image/*">
+
+      <label>ตัวเลือก (คั่นด้วย ; )</label>
+      <textarea name="options" rows="3" required>{{ item.options }}</textarea>
+
+      <label>เฉลย</label>
+      <input type="text" name="correct" value="{{ item.correct }}" required>
+
+      <div class="row" style="margin-top:16px">
+        <button class="btn" type="submit">บันทึก</button>
+        <a class="btn gray" href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">ยกเลิก</a>
+
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+ body {
+      font-family: 'Prompt', sans-serif;
+      margin: 0;
+      background: url("{{ url_for('static', filename='images/6.png') }}") no-repeat center center fixed;
+      background-size: cover;
+      padding: 40px;
+    }
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      border-top: 6px solid #007bff;
+    }
+    h2 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      color: #003366;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 2px solid #cce7ff;
+      font-size: 1rem;
+      transition: border 0.2s ease;
+    }
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+    }
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .back:hover {
+      color: #0056b3;
+    }

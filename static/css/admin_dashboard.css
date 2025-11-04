@@ -1,0 +1,65 @@
+ body { font-family: 'Prompt', sans-serif; margin: 0; background: #f0f9ff; }
+    header {
+      background: #9EE6FD; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; color: white;
+    }
+    .logo-container { display: flex; align-items: center; gap: 10px; }
+    .logo-container img { height: 40px; }
+    .logo-text { font-size: 1.5rem; font-weight: bold; }
+    .logo-text .echo { color: #001D7D; }
+    .logo-text .lingo { color: #ffffff; }
+
+    .btn-logout {
+      background: #ff4d4d; color: #fff; border: none; padding: 8px 15px; border-radius: 20px;
+      font-weight: bold; text-decoration: none; transition: background .3s ease;
+    }
+    .btn-logout:hover { background: #d32f2f; }
+
+    .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+
+    .card {
+      background: #fff; padding: 20px; margin-bottom: 25px; border-radius: 15px;
+      border-left: 8px solid #007acc; box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+    .card h2 { color: #007acc; margin-top: 0; }
+
+    .btn {
+      display: inline-block; background: linear-gradient(45deg, #00c6ff, #0072ff); color: #fff;
+      font-weight: bold; border-radius: 30px; padding: 8px 16px; text-decoration: none; margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(0,114,255,.3); transition: all .3s ease; font-size: .9rem;
+    }
+    .btn:hover { transform: scale(1.05); box-shadow: 0 6px 14px rgba(0,114,255,.4); }
+
+    .lesson-list, .game-list, .test-list { margin-top: 15px; }
+
+    .row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #ddd;
+    }
+    .row:last-child { border-bottom: none; }
+
+    .row .title { font-weight: 600; color: #001D7D; }
+    .row .actions { display: flex; gap: 8px; align-items: center; }
+
+    .delete-btn {
+  background: linear-gradient(45deg, #ff6b6b, #d32f2f);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(45deg, #ff5252, #b71c1c);
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(255, 82, 82, 0.4);
+}
+
+
+    .btn.gray { background: linear-gradient(45deg, #94a3b8, #64748b); }
+    .btn.green { background: linear-gradient(45deg, #34d399, #10b981); }
+    .btn.orange { background: linear-gradient(45deg, #fbbf24, #f59e0b); }

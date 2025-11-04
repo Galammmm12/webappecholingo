@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - EchoLingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="form-section">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+      </div>
+      <h2>Sign In</h2>
+      <form method="POST" action="{{ url_for('auth.login') }}">
+        <!-- Username -->
+        <input type="text" name="username" placeholder="Enter Username"
+               value="{{ username or '' }}" required>
+        {% if error_username %}
+          <div class="error">{{ error_username }}</div>
+        {% endif %}
+
+        <!-- Password -->
+        <input type="password" name="password" placeholder="Enter Password" required>
+        {% if error_password %}
+          <div class="error">{{ error_password }}</div>
+        {% endif %}
+
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember Me</label>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+
+      <div class="signup-link">
+        Don’t have an account? <a href="{{ url_for('auth.register') }}">Sign Up</a>
+
+      </div>
+    </div>
+    <div class="image-section"></div>
+  </div>
+</body>
+</html>

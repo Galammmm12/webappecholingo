@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>แก้ไขข้อควิซ – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+      --primary:#2563eb; --bg:#f0f5ff; --panel:#fff; --text:#0f172a;
+      --muted:#64748b; --border:#e2e8f0; --accent:#bfdbfe;
+    }
+    *{box-sizing:border-box}
+    body{font-family:"Prompt",sans-serif;background:var(--bg);color:var(--text);margin:0;padding:24px}
+    .wrap{max-width:900px;margin:0 auto}
+    h3{margin:0 0 16px;color:#001D7D}
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:0 10px 20px rgba(2,6,23,.05);
+      padding:20px;
+    }
+
+    form{display:grid;gap:14px}
+    label{font-weight:600}
+    .hint{font-size:.9rem;color:var(--muted)}
+    textarea,input[type="text"]{
+      width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff
+    }
+    textarea{min-height:110px;resize:vertical}
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:740px){ .row{grid-template-columns:1fr} }
+
+    .actions{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
+    .btn{
+      background:#2563eb;color:#fff;border:none;border-radius:12px;
+      padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;
+      font-weight:600;transition:transform .12s ease, box-shadow .12s ease;
+      box-shadow:0 4px 10px rgba(37,99,235,.25)
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.32)}
+    .btn.ghost{background:#94a3b8;box-shadow:none}
+    .btn.ghost:hover{background:#64748b}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h3>แก้ไขข้อควิซ – {{ game.title }}</h3>
+
+  <div class="card">
+    <form method="post">
+      <div>
+        <label for="q">คำถาม</label>
+        <textarea id="q" name="question" required>{{ item.question }}</textarea>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="optA">ตัวเลือก A</label>
+          <input id="optA" type="text" name="option_a" value="{{ item.option_a }}" required>
+        </div>
+        <div>
+          <label for="optB">ตัวเลือก B</label>
+          <input id="optB" type="text" name="option_b" value="{{ item.option_b }}" required>
+        </div>
+        <div>
+          <label for="optC">ตัวเลือก C</label>
+          <input id="optC" type="text" name="option_c" value="{{ item.option_c }}" required>
+        </div>
+        <div>
+          <label for="optD">ตัวเลือก D</label>
+          <input id="optD" type="text" name="option_d" value="{{ item.option_d }}" required>
+        </div>
+      </div>
+
+      <div>
+        <label for="ans">เฉลย (A/B/C/D)</label>
+        <input id="ans" type="text" name="correct" maxlength="1" value="{{ item.correct }}" required>
+        <div class="hint">พิมพ์เฉพาะตัวอักษรตัวเลือก เช่น A หรือ C</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">💾 บันทึก</button>
+        <a class="btn ghost" href="{{ url_for('admin.view_game_detail', game_id=game.id) }}">⬅ กลับ</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

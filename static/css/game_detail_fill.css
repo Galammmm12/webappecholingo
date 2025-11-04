@@ -1,0 +1,107 @@
+/* General page styles */
+body {
+    font-family: 'Prompt', sans-serif;
+    background: #f0faff;
+    margin: 0;
+    padding: 30px;
+}
+
+/* Container styles */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Header styles */
+h1 {
+    text-align: center;
+    color: #001D7D;
+    margin-bottom: 25px;
+}
+
+/* Button styling */
+.button {
+    display: inline-block;
+    background: var(--primary, #007acc); /* Primary blue */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 5px 5px 20px 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Added subtle shadow */
+}
+
+.button:hover {
+    background: var(--primary-hover, #005fa3); /* Darker blue on hover */
+    transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+/* Button variations */
+.button.edit {
+    background: #f59e0b; /* Orange for edit */
+}
+
+.button.edit:hover {
+    background: #d97706; /* Darker orange on hover */
+}
+
+.button.delete {
+    background: #e53935; /* Red for delete */
+}
+
+.button.delete:hover {
+    background: #c62828; /* Darker red on hover */
+}
+
+.button.secondary {
+    background: #64748b; /* Secondary muted color */
+}
+
+.button.secondary:hover {
+    background: #4b6373; /* Darker secondary color */
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #e0f7ff;
+    color: #003366;
+}
+
+td {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* No items message */
+.no-items {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin-top: 30px;
+}
+
+/* Action buttons container */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}

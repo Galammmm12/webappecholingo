@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>学生面板 - EchoLingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/student_dashboard_zh.css') }}">
+</head>
+<body>
+<header>
+  <div class="logo-container">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+    <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+  </div>
+
+  <div class="nav-center">
+    <nav>
+      <a href="{{ url_for('student.dashboard_zh') }}">Home</a>
+
+      <a href="{{ url_for('student.exercise_score_zh') }}">Exercise Score</a>
+      <a href="{{ url_for('student.test_scores_zh') }}">Test Score</a>
+    </nav>
+  </div>
+
+  <div class="right-controls">
+    <!-- ✅ Toggle EN / 中文 -->
+    <div class="lang-toggle">
+      <input type="checkbox" id="langSwitch" checked>
+      <label for="langSwitch" class="toggle">
+        <span class="option en">EN</span>
+        <span class="option cn">中文</span>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+  </div>
+</header>
+
+<div class="unit-container">
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u1.png') }}" alt="Unit 1">
+    <h3>单元 1</h3>
+    <p>问候语</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=18, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u2.png') }}" alt="Unit 2">
+    <h3>单元 2</h3>
+    <p>自我介绍</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=19, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u3.png') }}" alt="Unit 3">
+    <h3>单元 3</h3>
+    <p>食物</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=20, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u4.png') }}" alt="Unit 4">
+    <h3>单元 4</h3>
+    <p>饮料</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=21, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u5.png') }}" alt="Unit 5">
+    <h3>单元 5</h3>
+    <p>这是...</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=22, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+
+  <div class="unit-card">
+    <img src="{{ url_for('static', filename='images/u6.png') }}" alt="Unit 6">
+    <h3>单元 6</h3>
+    <p>国籍</p>
+    <a href="{{ url_for('student.unit_detail', unit_id=23, lang='zh') }}" class="view-btn">Start</a>
+  </div>
+</div>
+
+<footer>© 2025 EchoLingo | 隐私政策</footer>
+
+<script>
+const langSwitch = document.getElementById("langSwitch");
+langSwitch.addEventListener("change", function() {
+  if (this.checked) {
+    // ไปหน้าภาษาจีน
+    window.location.href = "{{ url_for('student.dashboard_zh') }}";
+  } else {
+    // ไปหน้าภาษาอังกฤษ
+    window.location.href = "{{ url_for('student.dashboard_en') }}";
+  }
+});
+</script>
+</body>
+</html>

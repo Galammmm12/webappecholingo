@@ -1,0 +1,63 @@
+body {
+  font-family: "Prompt", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url("../images/6.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+
+h1 { margin: 20px 0; }
+
+/* ✅ กล่องเกม */
+.game-box {
+  background: rgba(255, 255, 255, 0.65);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  max-width: 900px;
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+.score-box {
+  display: flex; justify-content: center; align-items: center;
+  width: 240px; height: 90px;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  border-radius: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  margin: 0 auto 25px auto;
+  color: white; font-size: 32px; font-weight: bold;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.game { position: relative; width: 100%; max-width: 800px; margin: 0 auto; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  gap: 300px; margin: 20px 0; position: relative; }
+.sound-box { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+.sound-icon { font-size: 28px; cursor: pointer; }
+.item {
+  background: #fff; padding: 12px 18px; border-radius: 12px;
+  border: 2px solid #aaa; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative; justify-self: flex-start;
+}
+svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: linear-gradient(45deg,#ff6ec4,#7873f5); cursor: pointer; z-index: 10;
+}
+.dot.question { margin-left: 8px; }
+.dot.answer { position: absolute; left: -25px; top: 50%; transform: translateY(-50%); }
+.correct { background: #c8f7c5 !important; border-color: #27ae60 !important; box-shadow: 0 0 12px #27ae60; }
+.wrong { background: #f8c5c5 !important; border-color: #c0392b !important; box-shadow: 0 0 12px #c0392b; }
+button {
+  padding: 12px 24px; font-size: 16px; border-radius: 12px; border: none;
+  color: white; cursor: pointer; margin: 10px; font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+#submitBtn { background: linear-gradient(45deg, #43a047, #66bb6a); }
+#resetBtn { background: linear-gradient(45deg, #42a5f5, #64b5f6); }

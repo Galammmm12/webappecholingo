@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>จัดการคำถามพูด – {{ game.title }}</title>
+  <style>
+    body { font-family:"Prompt",sans-serif; background:#f9fcff; margin:0; padding:30px; }
+    .wrap { max-width:900px; margin:auto; }
+    table { width:100%; border-collapse:collapse; margin-top:20px; }
+    th, td { border:1px solid #ddd; padding:8px; }
+    th { background:#e0f2fe; text-align:left; }
+    a.btn, button { padding:6px 12px; border-radius:6px; text-decoration:none; margin:2px; }
+    .btn-add { background:#2563eb; color:#fff; }
+    .btn-edit { background:#f59e0b; color:#fff; }
+    .btn-del { background:#ef4444; color:#fff; border:none; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>จัดการคำถามพูด (Speech) – {{ game.title }}</h2>
+    <a href="{{ url_for('add_speech_question', game_id=game.id) }}" class="btn btn-add">➕ เพิ่มคำถามใหม่</a>
+    <table>
+      <tr><th>ID</th><th>คำถาม</th><th>คำตอบ</th><th>ภาษา</th><th>จัดการ</th></tr>
+      {% for it in items %}
+      <tr>
+        <td>{{ it.id }}</td>
+        <td>{{ it.question_text }}</td>
+        <td>{{ it.correct_answer }}</td>
+        <td>{{ it.lang }}</td>
+        <td>
+          <a href="{{ url_for('edit_speech_question', game_id=game.id, item_id=it.id) }}" class="btn btn-edit">แก้ไข</a>
+          <form action="{{ url_for('delete_speech_question', game_id=game.id, item_id=it.id) }}" method="post" style="display:inline">
+            <button type="submit" class="btn-del" onclick="return confirm('ลบใช่ไหม?')">ลบ</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <a href="{{ url_for('view_game_detail', game_id=game.id) }}">⬅ กลับ</a>
+  </div>
+</body>
+</html>

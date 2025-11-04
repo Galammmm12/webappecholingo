@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>📖 ผลลัพธ์ Quiz - {{ lesson.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz_answer.css') }}">
+
+</head>
+<body>
+
+  <h1>📘 ผลลัพธ์ Quiz: {{ lesson.title }}</h1>
+  <div class="score-box">✅ คะแนนของคุณ: {{ score }}/{{ total }}</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ข้อ</th>
+        <th>คำถาม</th>
+        <th>คำตอบของคุณ</th>
+        <th>คำตอบที่ถูกต้อง</th>
+        <th>สถานะ</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr class="{{ 'correct-row' if r.is_correct else 'wrong-row' }}">
+        <td>{{ loop.index }}</td>
+        <td>{{ r.question }}</td>
+        <td>{{ r.user_answer }}</td>
+        <td>{{ r.correct_answer }}</td>
+        <td class="status">{{ '✔' if r.is_correct else '✘' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<a href="{{ url_for('student.unit_detail', unit_id=lesson.id, lang=lang) }}" class="back">
+  ⬅ กลับหน้าบทเรียน
+</a>
+
+</body>
+</html>

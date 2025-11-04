@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>{{ game.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/play_matching.css') }}">
+<style>
+a.back {
+  display:inline-block; 
+  margin-left:10px; 
+  padding:10px 20px; 
+  background:#00c6ff; 
+  color:white; 
+  border-radius:10px; 
+  text-decoration:none; 
+  font-weight:bold;
+}
+a.back:hover { opacity:0.8; }
+</style>
+</head>
+<body>
+<h1>{{ game.title }} 🎧</h1>
+<p>{{ game.description }}</p>
+
+<div class="game-box">
+  <div class="score-box" id="scoreBox">0 / {{ items|length }}</div>
+
+  <form id="scoreForm" method="POST" action="{{ url_for('game.play_game', game_id=game.id) }}">
+    <input type="hidden" name="score" id="scoreInput">
+  </form>
+
+  <div class="game" id="gameArea">
+    <svg id="lines"></svg>
+
+    {% for q in items %}
+    <div class="pair">
+      <div class="sound-box">
+        <div class="sound-icon" data-id="q{{ q.id }}">🔊</div>
+        <div class="dot question" data-id="q{{ q.id }}"></div>
+
+        {% if q.question_audio %}
+          {% set audio_path = q.question_audio %}
+          {% if 'uploads/' in audio_path %}
+            <!-- ✅ ไฟล์ใหม่ใน static/uploads -->
+            <audio id="audio-q{{ q.id }}" 
+                   src="{{ url_for('admin.serve_upload', filename=audio_path.split('uploads/')[-1]) }}">
+            </audio>
+          {% else %}
+            <!-- ✅ ไฟล์เก่าใน static/audio -->
+            <audio id="audio-q{{ q.id }}" 
+                   src="{{ url_for('static', filename='audio/' ~ audio_path) }}">
+            </audio>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div class="item" data-id="a{{ answers[loop.index0].id }}">
+        {{ answers[loop.index0].answer_text }}
+        <div class="dot answer" data-id="a{{ answers[loop.index0].id }}"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div>
+    <button type="button" id="submitBtn">✅ ส่งคำตอบ</button>
+    <button type="button" id="resetBtn">🔄 รีเซ็ต</button>
+    <a href="{{ url_for('student.unit_detail', unit_id=game.lesson_id, lang=game.lang) }}" class="back">
+      ⬅ กลับหน้าบทเรียน
+    </a>
+  </div>
+</div>
+
+<script>
+const svg=document.getElementById("lines");
+const scoreBox=document.getElementById("scoreBox");
+const submitBtn=document.getElementById("submitBtn");
+const resetBtn=document.getElementById("resetBtn");
+
+let selectedDot=null, allowConnect=true;
+const connections=[]; 
+const totalQuestions={{ items|length }};
+const correctPairs={ {% for it in items %}"q{{ it.id }}":"a{{ it.id }}",{% endfor %} };
+
+// ✅ เล่นเสียง
+document.querySelectorAll(".sound-icon").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    if(!allowConnect) return;
+    const qId=btn.dataset.id;
+    const audio=document.getElementById(`audio-${qId}`);
+    if(audio){ audio.currentTime=0; audio.play(); }
+  });
+});
+
+// ✅ คลิกจับคู่
+document.querySelectorAll(".dot").forEach(dot=>{
+  dot.addEventListener("click",()=>{
+    if(!allowConnect) return;
+    if(!selectedDot){
+      selectedDot=dot; 
+      dot.style.boxShadow="0 0 10px #ff6ec4";
+    } else {
+      if(selectedDot.classList.contains("question") && dot.classList.contains("answer")) drawLine(selectedDot,dot);
+      else if(selectedDot.classList.contains("answer") && dot.classList.contains("question")) drawLine(dot,selectedDot);
+      selectedDot.style.boxShadow=""; 
+      selectedDot=null;
+    }
+  });
+});
+
+// ✅ วาดเส้นเชื่อม
+function drawLine(qDot,aDot){
+  const svgRect=svg.getBoundingClientRect(), qRect=qDot.getBoundingClientRect(), aRect=aDot.getBoundingClientRect();
+  const x1=qRect.left+qRect.width/2-svgRect.left, y1=qRect.top+qRect.height/2-svgRect.top;
+  const x2=aRect.left+aRect.width/2-svgRect.left, y2=aRect.top+aRect.height/2-svgRect.top;
+  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+  line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+  line.setAttribute("stroke","#7873f5");
+  line.setAttribute("stroke-width","3");
+  line.setAttribute("stroke-dasharray","6 4");
+  svg.appendChild(line); 
+  connections.push({qId:qDot.dataset.id,aId:aDot.dataset.id,line});
+}
+
+// ✅ ตรวจคำตอบ
+submitBtn.addEventListener("click",()=>{
+  if(!allowConnect) return;
+  allowConnect=false;
+  let score=0;
+
+  connections.forEach(conn=>{
+    const {qId,aId,line}=conn;
+    const ansBox=document.querySelector(`.item[data-id="${aId}"]`);
+    const qDot=document.querySelector(`.dot.question[data-id="${qId}"]`);
+
+    if(correctPairs[qId]===aId){
+      ansBox.classList.add("correct");
+      qDot.classList.add("correct");
+      line.setAttribute("stroke","green");
+      score++;
+    } else {
+      ansBox.classList.add("wrong");
+      qDot.classList.add("wrong");
+      line.setAttribute("stroke","red");
+    }
+    line.setAttribute("stroke-dasharray","0");
+  });
+
+  scoreBox.textContent=`${score} / ${totalQuestions}`;
+  document.getElementById("scoreInput").value = score;
+
+  fetch("{{ url_for('game.play_game', game_id=game.id) }}", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "score=" + score
+  });
+
+  document.querySelectorAll(".dot, .sound-icon").forEach(el=>{
+    el.style.pointerEvents="none";
+    el.style.opacity="0.6";
+  });
+  submitBtn.disabled=true;
+  resetBtn.disabled=true;
+  submitBtn.style.opacity="0.5";
+  resetBtn.style.opacity="0.5";
+
+  for(const [qId, aId] of Object.entries(correctPairs)){
+    const already = connections.some(c=>c.qId===qId && c.aId===aId);
+    if(!already){
+      const qDot=document.querySelector(`.dot.question[data-id="${qId}"]`);
+      const aDot=document.querySelector(`.dot.answer[data-id="${aId}"]`);
+      if(qDot && aDot) drawCorrectLine(qDot, aDot);
+    }
+  }
+});
+
+function drawCorrectLine(qDot,aDot){
+  const svgRect=svg.getBoundingClientRect();
+  const qRect=qDot.getBoundingClientRect();
+  const aRect=aDot.getBoundingClientRect();
+  const x1=qRect.left+qRect.width/2-svgRect.left;
+  const y1=qRect.top+qRect.height/2-svgRect.top;
+  const x2=aRect.left+aRect.width/2-svgRect.left;
+  const y2=aRect.top+aRect.height/2-svgRect.top;
+  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",x1);
+  line.setAttribute("y1",y1);
+  line.setAttribute("x2",x2);
+  line.setAttribute("y2",y2);
+  line.setAttribute("stroke","green");
+  line.setAttribute("stroke-width","2");
+  line.setAttribute("stroke-dasharray","0");
+  line.setAttribute("opacity","0.6");
+  svg.appendChild(line);
+}
+
+// ✅ รีเซ็ต
+resetBtn.addEventListener("click",()=>{
+  if(!allowConnect) return;
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  document.querySelectorAll(".item").forEach(i=>i.classList.remove("correct","wrong"));
+  connections.length=0; 
+  scoreBox.textContent=`0 / ${totalQuestions}`;
+});
+</script>
+</body>
+</html>

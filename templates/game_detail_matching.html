@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Matching – {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail_matching.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <h2>Matching – {{ game.title }}</h2>
+
+    <div class="toolbar">
+      <a class="btn" href="{{ url_for('admin.add_matching_item', game_id=game.id) }}">➕ เพิ่มข้อ</a>
+      <a href="{{ url_for('admin.edit_game', game_id=game.id) }}" class="btn btn-add" style="background:#17a2b8;">✏️ แก้ไขเกม</a>
+    </div>
+
+    <div class="card">
+      {% if items|length == 0 %}
+        <p style="padding:16px" class="muted">ยังไม่มีข้อในเกมนี้</p>
+      {% else %}
+      <table>
+        <thead>
+          <tr>
+            <th style="width:72px">ID</th>
+            <th style="width:260px">ไฟล์เสียง</th>
+            <th>คำตอบ</th>
+            <th style="width:90px">กลุ่ม</th>
+            <th style="width:220px">จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in items %}
+          <tr>
+            <td>{{ it.id }}</td>
+            <td>
+              {% if it.question_audio %}
+                {% set audio_path = it.question_audio %}
+
+                {% if 'uploads/' in audio_path %}
+                  <!-- ✅ ไฟล์ใหม่ใน static/uploads -->
+                  <audio controls>
+                    <source src="{{ url_for('admin.serve_upload', filename=audio_path.split('uploads/')[-1]) }}" type="audio/mpeg">
+                    เบราว์เซอร์ของคุณไม่รองรับการเล่นเสียง
+                  </audio>
+                {% else %}
+                  <!-- ✅ ไฟล์เก่าใน static/audio -->
+                  <audio controls>
+                    <source src="{{ url_for('static', filename='audio/' ~ audio_path) }}" type="audio/mpeg">
+                    เบราว์เซอร์ของคุณไม่รองรับการเล่นเสียง
+                  </audio>
+                {% endif %}
+
+                <span class="audio-name">{{ audio_path }}</span>
+              {% else %}
+                <span class="muted">-</span>
+              {% endif %}
+            </td>
+            <td><strong>{{ it.answer_text }}</strong></td>
+            <td>{{ it.pair_group }}</td>
+            <td class="actions">
+              <a class="btn warn" href="{{ url_for('admin.edit_matching_item', game_id=game.id, item_id=it.id) }}">แก้ไข</a>
+              <form action="{{ url_for('admin.delete_matching_item', game_id=game.id, item_id=it.id) }}"
+                    method="post" onsubmit="return confirm('ลบรายการนี้?')" style="display:inline">
+                <button class="btn danger" type="submit">ลบ</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+
+    <a href="{{ url_for('admin.dashboard') }}" class="back-link">⬅ กลับหน้ารายการเกม</a>
+  </div>
+</body>
+</html>

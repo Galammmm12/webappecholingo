@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/play_drag.css') }}">
+
+</head>
+
+<body>
+  <div class="header-section">
+    <h1>{{ game.title }}</h1>
+    <p>{{ game.description }}</p>
+  </div>
+
+  {% if played %}
+    <h3 style="text-align:center;color: gray;">คุณเคยเล่นเกมนี้แล้ว ✅</h3>
+  {% endif %}
+
+  <div class="game-wrapper">
+    {% if not played %}
+    <div class="word-list">
+      <h3>🔠 คำศัพท์</h3>
+      {% for word in shuffled_words %}
+        <div class="word" draggable="true" ondragstart="drag(event)" id="word-{{ loop.index }}">{{ word }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="game-container">
+      {% for item in items %}
+        <div class="game-card">
+          <img src="{{ url_for('static', filename='images/' ~ item.image_name) }}"
+               alt="{{ item.correct_word }}"
+               onclick="speakWord('{{ item.correct_word }}')"
+               onerror="this.src='{{ url_for('static', filename='images/default.png') }}'">
+          <div class="drop-zone"
+               data-correct="{{ item.correct_word }}"
+               data-pinyin="{{ item.pinyin or '' }}"
+               data-item-id="{{ item.id }}"
+               ondrop="drop(event)" 
+               ondragover="allowDrop(event)">
+            {% if played %}
+              <span style="color: green;">
+                {{ item.correct_word }}{% if game.lang=='zh' and item.pinyin %} ({{ item.pinyin }}){% endif %} ✔
+              </span>
+            {% else %}
+              วางคำที่ถูกต้องที่นี่
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div id="controls">
+    {% if not played %}
+      <button type="button" id="submit-btn" class="main-btn" onclick="checkAnswers()">✅ ส่งคำตอบ</button>
+    {% else %}
+      <div id="back-home">
+        <a href="{{ url_for('student.unit_detail', unit_id=game.lesson_id, lang=game.lang) }}" class="main-btn">
+          ⬅ กลับหน้าบทเรียน
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+<script>
+const IS_ZH = "{{ game.lang }}" === "zh";
+let selectedVoice = null;
+const PINYIN_MAP = {{ pinyin_map | tojson | safe }};
+const playedBefore = {{ 'true' if played else 'false' }};
+
+// โหลดเสียงพูด
+function loadVoices() {
+  const voices = speechSynthesis.getVoices();
+  if (!voices.length) {
+    // ถ้ายังไม่โหลด ให้รอแล้วเรียกอีกที
+    setTimeout(loadVoices, 200);
+    return;
+  }
+
+  // ✅ กรองเสียงผู้หญิง
+  const femaleVoices = voices.filter(v =>
+    /(female|woman|หญิง|Samantha|Zira|Google UK English Female|Google US English Female|Xiaoyi|Liang|Mei|Ting-Ting|Zhiyu)/i.test(v.name)
+  );
+
+  if ("{{ game.lang }}" === "zh") {
+    selectedVoice =
+      femaleVoices.find(v => v.lang === "zh-CN") ||
+      voices.find(v => v.lang === "zh-CN") ||
+      voices.find(v => v.lang.startsWith("zh")) ||
+      voices[0];
+  } else {
+    selectedVoice =
+      femaleVoices.find(v => v.lang === "en-US") ||
+      femaleVoices.find(v => v.lang === "en-GB") ||
+      voices.find(v => v.lang === "en-US") ||
+      voices.find(v => v.lang === "en-GB") ||
+      voices[0];
+  }
+
+  console.log("Selected Voice:", selectedVoice ? selectedVoice.name : "None");
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.word').forEach(w => {
+    const text = w.textContent.trim();
+    if (IS_ZH) {
+      const hanzi = text;
+      const pinyin = PINYIN_MAP[hanzi] || hanzi;
+      w.dataset.value = hanzi;
+      w.dataset.label = pinyin;
+      w.textContent = pinyin;
+    } else {
+      w.dataset.value = text;
+      w.dataset.label = text;
+    }
+  });
+});
+
+function speakWord(word) {
+  let msg = new SpeechSynthesisUtterance(word);
+  msg.lang = IS_ZH ? "zh-CN" : "en-US";
+  msg.rate = 0.9;
+  msg.pitch = 1.0;
+  if (selectedVoice) msg.voice = selectedVoice;
+  window.speechSynthesis.speak(msg);
+}
+
+function allowDrop(ev){ if(playedBefore) return; ev.preventDefault(); }
+function drag(ev){ if(playedBefore) return; ev.dataTransfer.setData("text", ev.target.id); }
+
+function drop(ev){
+  if (playedBefore) return;
+  ev.preventDefault();
+  const draggedId = ev.dataTransfer.getData("text");
+  const dragged = document.getElementById(draggedId);
+  if (!dragged) return;
+
+  let dropZone = ev.target;
+  while (!dropZone.classList.contains('drop-zone') && dropZone !== document.body) {
+    dropZone = dropZone.parentNode;
+  }
+  if (!dropZone.classList.contains('drop-zone')) return;
+
+  const value = dragged.dataset.value;
+  const label = dragged.dataset.label;
+  dropZone.textContent = "";
+  dropZone.setAttribute('data-user-answer', value);
+  dropZone.innerHTML = `<span style="color:#007acc;">${label}</span>`;
+}
+
+// ✅ ตรวจคำตอบแล้วส่งคะแนนไป Flask
+function checkAnswers(){
+  let correctCount = 0;
+  const zones = document.querySelectorAll('.drop-zone');
+  zones.forEach(zone=>{
+    const userAnswer = (zone.getAttribute('data-user-answer') || '').trim();
+    const correctAnswer = (zone.getAttribute('data-correct') || '').trim();
+    const pinyin = zone.getAttribute('data-pinyin') || '';
+    zone.innerHTML = '';
+
+    if (userAnswer === correctAnswer){
+      zone.innerHTML = `<span style="color: green;">
+        ${IS_ZH ? `${correctAnswer}${pinyin?` (${pinyin})`:''}` : correctAnswer} ✔ ${IS_ZH ? "正确" : "ถูกต้อง"}
+      </span>`;
+      correctCount++;
+    } else {
+      const answerLabel = IS_ZH ? (PINYIN_MAP[userAnswer] || userAnswer) : userAnswer;
+      const correctLabel = IS_ZH ? `${correctAnswer}${pinyin?` (${pinyin})`:''}` : correctAnswer;
+      zone.innerHTML = `<span style="color: red;">
+        ${answerLabel} ✘ ${IS_ZH ? "錯誤" : "ผิด"}<br>
+        <small>${IS_ZH ? "เฉลย" : "เฉลย"}: <b>${correctLabel}</b></small>
+      </span>`;
+    }
+    zone.style.border = '2px solid gray';
+  });
+  saveScore(correctCount);
+}
+
+// ✅ ฟังก์ชันบันทึกคะแนนไปยังฐานข้อมูล
+async function saveScore(score){
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = IS_ZH ? "⏳ 正在保存..." : "⏳ กำลังบันทึก...";
+
+  try {
+    // ✅ ใช้ endpoint ที่ถูกต้อง
+    const res = await fetch("{{ url_for('game.save_score', game_id=game.id) }}", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "score=" + score
+    });
+
+    const data = await res.json();
+    if (data.success){
+      btn.textContent = "✅ บันทึกสำเร็จ!";
+      setTimeout(() => {
+        window.location.href = "{{ url_for('student.unit_detail', unit_id=lesson.id) }}?lang={{ lang }}";
+      }, 1000);
+    } else {
+      btn.textContent = "⚠️ บันทึกล้มเหลว";
+      btn.disabled = false;
+    }
+  } catch (err) {
+    console.error(err);
+    btn.textContent = "❌ เกิดข้อผิดพลาด";
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

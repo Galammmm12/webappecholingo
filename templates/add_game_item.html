@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>➕ เพิ่มคำศัพท์ในเกม - {{ game.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_game_item.css') }}">
+  
+</head>
+<body>
+  <div class="container">
+    <h1>➕ เพิ่มคำศัพท์ในเกม {{ game.title }}</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+      <label for="image_file">📷 เลือกรูปภาพ:</label>
+      <input type="file" name="image_file" accept="image/*" required>
+
+      {% if game.lang == "zh" %}
+        <!-- ✅ เกมภาษาจีน -->
+        <label for="correct_word">🇨🇳 คำศัพท์ภาษาจีน (汉字):</label>
+        <input type="text" name="correct_word" placeholder="เช่น 苹果" required>
+
+        <label for="pinyin">🔤 พินอิน (拼音):</label>
+        <input type="text" name="pinyin" placeholder="เช่น píng guǒ" required>
+      
+      {% elif game.lang == "en" %}
+        <!-- ✅ เกมภาษาอังกฤษ -->
+        <label for="correct_word">🇬🇧 คำศัพท์ภาษาอังกฤษ:</label>
+        <input type="text" name="correct_word" placeholder="เช่น apple" required>
+      {% endif %}
+
+      <button type="submit">💾 บันทึก</button>
+    </form>
+
+    <!-- ✅ ปุ่มกลับหน้ารายละเอียดเกม -->
+    <a href="{{ url_for('admin.view_game_detail', game_id=game.id) }}" class="back-link">⬅ กลับหน้ารายละเอียดเกม</a>
+  </div>
+</body>
+</html>

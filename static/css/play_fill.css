@@ -1,0 +1,102 @@
+ body {
+      margin: 0;
+      font-family: 'Prompt', sans-serif;
+      background: url("../images/12.png") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+            padding-top: 100px; /* กันไม่ให้ header ทับเนื้อหา */
+
+    }
+
+    /* ✅ กล่องเกม */
+    .container {
+      max-width: 980px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.15);
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      text-align: center;
+      color: #005f99;
+      margin: 0 0 15px;
+      font-size: 1.8rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* ✅ Word Bank */
+    .word-bank {
+      border: 2px dashed #007acc;
+      background: #f0f9ff;
+      border-radius: 14px;
+      padding: 14px;
+      margin: 20px 0 30px;
+      box-shadow: inset 0 3px 8px rgba(0,0,0,0.05);
+    }
+    .chip {
+      display: inline-block;
+      margin: 6px 6px 0 0;
+      padding: 8px 14px;
+      background: linear-gradient(45deg,#9EE6FD,#69D6FB);
+      border-radius: 999px;
+      font-weight: 600;
+      color: #003f66;
+      box-shadow: 0 3px 8px rgba(0,0,0,.15);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .chip:hover { transform: scale(1.05); }
+
+    /* ✅ กล่องประโยค */
+    .dialogue-box {
+      border: 2px solid #69D6FB;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 16px 0;
+      background: #ffffff;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,.08);
+      transition: transform 0.2s ease;
+    }
+    .dialogue-box:hover { transform: translateY(-3px); }
+
+    /* ✅ ช่องว่างเติมคำ */
+    input.blank {
+      min-width: 120px;
+      border: none;
+      border-bottom: 3px solid #007acc;
+      background: transparent;
+      text-align: center;
+      padding: 2px 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #005f99;
+      transition: border-color 0.2s;
+    }
+    input.blank:focus {
+      border-bottom-color: #ff6b6b;
+      outline: none;
+    }
+
+    /* ✅ ปุ่มส่งคำตอบ */
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(45deg,#007acc,#005f99);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }

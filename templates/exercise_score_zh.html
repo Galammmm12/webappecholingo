@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>学生成绩 - EchoLingo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ex_zh.css') }}">
+</head>
+<body>
+<header>
+  <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EchoLingo Logo">
+      <span class="logo-text"><span class="echo">Echo</span><span class="lingo">Lingo</span></span>
+  </div>
+  <div class="nav-center">
+      <nav>
+       <a href="{{ url_for('student.dashboard_zh') }}">Home</a>
+       <a href="{{ url_for('student.exercise_score_zh') }}">Exercise Score</a>
+       <a href="{{ url_for('student.test_scores_zh') }}">Test Score</a>
+      </nav>
+  </div>
+  <div class="right-controls">
+    <a href="{{ url_for('auth.logout') }}" class="btn-logout">Logout</a>
+  </div>
+</header>
+
+<div class="unit-container">
+  {% for lesson in lessons %}
+    <div class="unit-card">
+      <img src="{{ url_for('static', filename='images/u' ~ loop.index ~ '.png') }}" alt="第{{ loop.index }}单元">
+      <h3>单元 {{ loop.index }}</h3>
+   
+      <!-- ✅ แก้ตรงนี้ให้ไม่ error -->
+      <a href="{{ url_for('student.lesson_score_detail_zh', lesson_id=lesson.lesson.id) }}" class="view-btn">View</a>
+    </div>
+  {% else %}
+    <p style="grid-column:1/-1;text-align:center;">❌ 暂无课程</p>
+  {% endfor %}
+</div>
+
+<script>
+const langSwitch = document.getElementById("langSwitch");
+if (langSwitch) {
+  langSwitch.addEventListener("change", function() {
+    if (this.checked) {
+      window.location.href = "{{ url_for('student.exercise_score_zh') }}";
+    } else {
+      window.location.href = "{{ url_for('student.exercise_score_zh') }}";
+    }
+  });
+}
+</script>
+</body>
+</html>

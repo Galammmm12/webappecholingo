@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎮 จัดการเกม | EchoLingo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: linear-gradient(135deg, #fff7f0 0%, #e6f7ff 100%);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ff6600;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.6);
+      padding: 6px 14px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    header a:hover {
+      background: white;
+      color: #ff6600;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff6600;
+      margin-bottom: 25px;
+    }
+
+    .add-btn {
+      display: inline-block;
+      background: #ff6600;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: 0.2s;
+    }
+
+    .add-btn:hover {
+      background: #ff8533;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      background: #f9f9f9;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .game-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .lesson-name {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .game-type {
+      background: #0099ff;
+      color: white;
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .actions {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn.edit {
+      background: #00b36b;
+    }
+
+    .btn.edit:hover {
+      background: #00cc7a;
+    }
+
+    .btn.delete {
+      background: #e60000;
+    }
+
+    .btn.delete:hover {
+      background: #ff1a1a;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="title">🎮 จัดการเกมทั้งหมด</div>
+    <a href="{{ url_for('admin.dashboard') }}">🏠 กลับแดชบอร์ด</a>
+  </header>
+
+  <div class="container">
+    <h2>📘 รายชื่อเกมในระบบ</h2>
+
+    <a href="{{ url_for('admin.add_game') }}" class="add-btn">➕ เพิ่มเกมใหม่</a>
+
+    {% if games %}
+      <div class="games-grid">
+        {% for g in games %}
+        <div class="game-card">
+          <div class="game-title">{{ g.title }}</div>
+          <div class="lesson-name">📖 บทเรียน: {{ g.lesson.title }}</div>
+          <div class="game-type">{{ g.game_type }}</div>
+          {% if g.description %}
+            <p style="font-size:14px; color:#666; margin-top:8px;">{{ g.description }}</p>
+          {% endif %}
+
+          <div class="actions">
+            <a href="{{ url_for('admin.edit_game', game_id=g.id) }}" class="btn edit">✏️ แก้ไข</a>
+            <form method="POST" action="{{ url_for('admin.delete_game', game_id=g.id) }}" style="display:inline;">
+              <button type="submit" class="btn delete" onclick="return confirm('ยืนยันลบเกมนี้?')">🗑️ ลบ</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center; color:#999;">ยังไม่มีเกมในระบบ</p>
+    {% endif %}
+  </div>
+</body>
+</html>

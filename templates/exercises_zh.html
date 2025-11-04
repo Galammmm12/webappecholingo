@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ unit.title }} - แบบฝึกหัดภาษาจีน</title>
+  <style>
+    body { font-family: sans-serif; background: #f5f7ff; }
+    .exercise { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .hanzi { font-size: 2rem; color: #1d4ed8; }
+    .pinyin { font-size: 1.2rem; color: #444; }
+    .meaning { font-size: 1rem; color: #666; margin-bottom: 10px; }
+    .options label { display: block; margin: 3px 0; }
+  </style>
+</head>
+<body>
+  <h1>แบบฝึกหัดภาษาจีน {{ unit.title }}</h1>
+
+  {% for ex in exercises %}
+    <div class="exercise">
+      <div class="hanzi">{{ ex.hanzi }}</div>
+      <div class="pinyin">{{ ex.pinyin }}</div>
+      <div class="meaning">{{ ex.meaning }}</div>
+
+      <div class="options">
+        A. {{ ex.option_a }}<br>
+        B. {{ ex.option_b }}<br>
+        C. {{ ex.option_c }}<br>
+        D. {{ ex.option_d }}
+      </div>
+    </div>
+  {% else %}
+    <p>ยังไม่มีแบบฝึกหัดในบทนี้</p>
+  {% endfor %}
+</body>
+</html>
